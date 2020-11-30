@@ -24,8 +24,9 @@ class TreatmentFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(2),
-            'description' => $this->faker->text(50),
-            'price' => $this->faker->randomFloat(1, 5, 60)
+            'description' => $this->faker->text(250),
+            'price' => $this->faker->randomFloat(1, 5, 60),
+            'image' => 'https://placeimg.com/500/500/any?' . $this->faker->numberBetween(1, 300),
         ];
     }
 }

@@ -1,8 +1,10 @@
 // Body
-$body-bg: #f8fafc;
+//$body-bg: #f8fafc;
+$body-bg: white;
+
 
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: 'Montserrat', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
@@ -17,3 +19,23 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+$olive: #658361;
+$olivedark: #40513c;
+$black: black;
+$white: white;
+
+$theme-colors: (
+    primary: $olive,
+    secondary: $olivedark,
+    black: $black
+);
+
+$navbar-light-color: rgba($black, 1);
+$navbar-light-hover-color: rgba($black, .8);
+$navbar-light-active-color: rgba($black, 1);
+
+$navbar-dark-color: rgba($white, 1);
+$navbar-dark-hover-color: rgba($white, .8);
+$navbar-dark-active-color: rgba($white, 1);
+
+$alert-border-width: 0;

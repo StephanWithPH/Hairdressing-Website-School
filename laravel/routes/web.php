@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomePageController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomePageController::class, 'index']);
+Route::post('/contact/submit', [App\Http\Controllers\ContactFormController::class, 'post'])->name('submitcontactform');
 
 Auth::routes(['register' => false]);
 
