@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $ownerRole = new Role();
+        $ownerRole->name = 'Eigenaresse';
+        $ownerRole->identifier = 'owner';
+        $ownerRole->save();
+
+        $employeeRole = new Role();
+        $employeeRole->name = 'Medewerker';
+        $employeeRole->identifier = 'employee';
+        $employeeRole->save();
+
+        \App\Models\User::factory(1)->create();
+        \App\Models\Treatment::factory(4)->create();
     }
 }
