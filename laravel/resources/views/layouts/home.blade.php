@@ -77,6 +77,7 @@
                             <li><a href="{{ route('login') }}" class="text-white">Behandelingen</a></li>
                             <li><a href="{{ route('login') }}" class="text-white">Reserveren</a></li>
                             <li><a href="{{ route('login') }}" class="text-white">Inloggen</a></li>
+                            <li><a href="{{ asset('pdf/privacy_statement.pdf') }}" target="_blank" class="text-white">Privacy statement</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6">
