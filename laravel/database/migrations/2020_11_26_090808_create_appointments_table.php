@@ -22,7 +22,6 @@ class CreateAppointmentsTable extends Migration
             $table->string('phone');
             $table->time('time_from');
             $table->time('time_until');
-            $table->unsignedBigInteger('treatment_id');
             $table->timestamps();
         });
     }

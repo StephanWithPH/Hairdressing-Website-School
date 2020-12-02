@@ -19,9 +19,6 @@ class CreateRelationshipsTable extends Migration
         Schema::table('timetable', function (Blueprint $table) {
             $table->foreign('treatment_id')->references('id')->on('treatments');
         });
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->foreign('treatment_id')->references('id')->on('treatments');
-        });
     }
 
     /**
