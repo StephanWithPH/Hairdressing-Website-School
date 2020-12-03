@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     @include('flash::message')
-    <div class="row justify-content-center mb-5">
+    <div class="row justify-content-center mb-5" id="aboutus">
         <div class="col-md-7">
             <h2 class="mb-3">Over ons</h2>
             <p class="lead">
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center mt-5 mb-5">
+    <div class="row justify-content-center mt-5 mb-5" id="ourspecialisation">
         <div class="col-md-5">
             <div class="image">
                 <img class="featurette-image img-fluid mx-auto rounded" src="{{ asset('img/home_specialisation.jpg') }}" data-holder-rendered="true">
@@ -57,31 +57,34 @@
 
         </div>
     </div>
-
-    <div class="row justify-content-center mt-5">
-        <div class="col text-center">
-            <h2>Behandelingen</h2>
-        </div>
-    </div>
-
-    <div class="row justify-content-center mt-4 mb-5">
-        @forelse(\App\Models\Treatment::limit(3)->get() as $treatment)
-            <div class="col-md-4 text-center">
-                <img class="rounded-circle" src="{{ $treatment->image }}" alt="{{ $treatment->name }} image" width="140" height="140">
-                <h3 class="mt-3">{{ $treatment->name }}</h3>
-                <p>{{ $treatment->description }}</p>
+</div>
+<div class="container-fluid">
+    <div class="container">
+        <div class="row justify-content-center mt-5" id="treatments">
+            <div class="col text-center">
+                <h2>Behandelingen</h2>
             </div>
-        @empty
-        @endforelse
+        </div>
+
+        <div class="row justify-content-center mt-4 mb-5">
+            @forelse(\App\Models\Treatment::limit(3)->get() as $treatment)
+                <div class="col-md-4 text-center">
+                    <img class="rounded-circle" src="{{ $treatment->image }}" alt="{{ $treatment->name }} image" width="140" height="140">
+                    <h3 class="mt-3">{{ $treatment->name }}</h3>
+                    <p>{{ $treatment->description }}</p>
+                </div>
+            @empty
+            @endforelse
+        </div>
     </div>
 </div>
 <div class="container-fluid bg-primary">
     <div class="container">
-        <div class="row justify-content-center align-items-center mb-5">
-            <div class="col-7 my-5">
+        <div class="row justify-content-center align-items-center mb-5" id="bookappointment">
+            <div class="col-7 my-5 py-4">
                 <h4 class="text-white m-0">Maak nu uw reservering door op de knop te drukken.</h4>
             </div>
-            <div class="col-5 my-5">
+            <div class="col-5 my-5 py-4">
                 <a class="btn btn-lg btn-secondary float-right m-0">Reserveren</a>
             </div>
         </div>
@@ -89,7 +92,7 @@
 </div>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col">
+        <div class="col" id="contact">
             <form action="{{ route('submitcontactform') }}" method="POST">
                 @csrf
                 <div class="card border-primary rounded-0">

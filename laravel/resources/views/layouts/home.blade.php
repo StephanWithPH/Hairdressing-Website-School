@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar-nav" data-offset="100">
     <div id="app">
         <div class="container mt-4 mb-4">
             <div class="row justify-content-center">
@@ -30,7 +30,7 @@
         </div>
 
 
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-5 sticky-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-5 sticky-top shadow">
             <div class="container">
                 {{--<a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -43,19 +43,19 @@
                     <!-- Center of navbar -->
                     <ul class="navbar-nav ml-auto mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link active">{{ __('Over ons') }}</a>
+                            <a class="nav-link active" href="#aboutus">{{ __('Over ons') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Onze specialisatie') }}</a>
+                            <a class="nav-link" href="#ourspecialisation">{{ __('Onze specialisatie') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Behandelingen') }}</a>
+                            <a class="nav-link" href="#treatments">{{ __('Behandelingen') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Reserveren') }}</a>
+                            <a class="nav-link" href="#bookappointment">{{ __('Reserveren') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">{{ __('Contact') }}</a>
+                            <a class="nav-link" href="#contact">{{ __('Contact') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -72,10 +72,10 @@
                     <div class="col-md-6">
                         <h2 class="text-white">Links</h2>
                         <ul class="list-unstyled text-white">
-                            <li><a href="{{ route('login') }}" class="text-white">Over ons</a></li>
-                            <li><a href="{{ route('login') }}" class="text-white">Onze specialisatie</a></li>
-                            <li><a href="{{ route('login') }}" class="text-white">Behandelingen</a></li>
-                            <li><a href="{{ route('login') }}" class="text-white">Reserveren</a></li>
+                            <li><a href="#aboutus" class="text-white">Over ons</a></li>
+                            <li><a href="#ourspecialisation" class="text-white">Onze specialisatie</a></li>
+                            <li><a href="#treatments" class="text-white">Behandelingen</a></li>
+                            <li><a href="#bookappointment" class="text-white">Reserveren</a></li>
                             <li><a href="{{ route('login') }}" class="text-white">Inloggen</a></li>
                             <li><a href="{{ asset('pdf/privacy_statement.pdf') }}" target="_blank" class="text-white">Privacy statement</a></li>
                         </ul>
@@ -100,6 +100,9 @@
                 </div>
             </div>
         </footer>
+        <div class="fixed-bottom">
+            @include('cookieConsent::index')
+        </div>
     </div>
 </body>
 </html>
