@@ -20,3 +20,8 @@ Route::post('/contact/submit', [App\Http\Controllers\ContactFormController::clas
 Auth::routes(['register' => false]);
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+
+Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'loadEmployeesPage'])->name('employees')->middleware('auth');
+Route::get('/employees/delete/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteEmployee'])->name('deleteemployee')->middleware('auth');
+
+

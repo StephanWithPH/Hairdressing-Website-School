@@ -45,7 +45,7 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Behandelingen') }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Medewerkers') }}</a>
+                                    <a class="nav-link" href="{{ route('employees') }}">{{ __('Medewerkers') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Analytics') }}</a>
