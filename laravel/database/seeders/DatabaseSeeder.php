@@ -24,7 +24,9 @@ class DatabaseSeeder extends Seeder
         $employeeRole->identifier = 'employee';
         $employeeRole->save();
 
-        \App\Models\User::factory(1)->create();
+        \App\Models\User::factory(1)->create([
+            'role_id' => 1,
+        ]);
         \App\Models\Treatment::factory(4)->create();
     }
 }
