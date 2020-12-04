@@ -9,6 +9,7 @@
                     {{ __('Medewerkers') }}
                 </div>
                 <div class="card-body">
+                    <a type="button" href="{{ route('addemployee') }}" class="btn btn-primary float-right mb-3">{{ __('Medewerkers toevoegen') }}</a>
                     <table class="table">
                         <thead class="bg-primary text-white">
                         <tr>
