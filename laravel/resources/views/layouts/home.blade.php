@@ -43,19 +43,19 @@
                     <!-- Center of navbar -->
                     <ul class="navbar-nav ml-auto mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#aboutus">{{ __('Over ons') }}</a>
+                            <a onclick="scrollToAnchor('aboutus')" class="nav-link active" href="#aboutus">{{ __('Over ons') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#ourspecialisation">{{ __('Onze specialisatie') }}</a>
+                            <a onclick="scrollToAnchor('ourspecialisation')" class="nav-link" href="#ourspecialisation">{{ __('Onze specialisatie') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#treatments">{{ __('Behandelingen') }}</a>
+                            <a onclick="scrollToAnchor('treatments')" class="nav-link" href="#treatments">{{ __('Behandelingen') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#bookappointment">{{ __('Reserveren') }}</a>
+                            <a onclick="scrollToAnchor('bookappointment')" class="nav-link" href="#bookappointment">{{ __('Reserveren') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#contact">{{ __('Contact') }}</a>
+                            <a onclick="scrollToAnchor('contact')" class="nav-link" href="#contact">{{ __('Contact') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -76,8 +76,8 @@
                             <li><a href="#ourspecialisation" class="text-white">Onze specialisatie</a></li>
                             <li><a href="#treatments" class="text-white">Behandelingen</a></li>
                             <li><a href="#bookappointment" class="text-white">Reserveren</a></li>
-                            <li><a href="{{ route('login') }}" class="text-white">Inloggen</a></li>
                             <li><a href="{{ asset('pdf/privacy_statement.pdf') }}" target="_blank" class="text-white">Privacy statement</a></li>
+                            <li><a href="{{ route('login') }}" class="text-white">Inloggen</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6">

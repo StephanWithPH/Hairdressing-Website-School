@@ -42,7 +42,7 @@
                             </li>
                             @if(\Illuminate\Support\Facades\Auth::user()->role->identifier == 'owner')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Behandelingen') }}</a>
+                                    <a class="nav-link" href="{{ route('treatments') }}">{{ __('Behandelingen') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('employees') }}">{{ __('Medewerkers') }}</a>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     @include('flash::message')
-    <div class="row justify-content-center mb-5" id="aboutus">
+    <div class="row justify-content-center mb-5" id="aboutus" name="aboutus">
         <div class="col-md-7">
             <h2 class="mb-3">Over ons</h2>
             <p class="lead">
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center mt-5 mb-5" id="ourspecialisation">
+    <div class="row justify-content-center mt-5 mb-5" id="ourspecialisation" name="ourspecialisation">
         <div class="col-md-5">
             <div class="image">
                 <img class="featurette-image img-fluid mx-auto rounded" src="{{ asset('img/home_specialisation.jpg') }}" data-holder-rendered="true">
@@ -60,7 +60,7 @@
 </div>
 <div class="container-fluid">
     <div class="container">
-        <div class="row justify-content-center mt-5" id="treatments">
+        <div class="row justify-content-center mt-5" id="treatments" name="treatments">
             <div class="col text-center">
                 <h2>Behandelingen</h2>
             </div>
@@ -71,7 +71,8 @@
                 <div class="col-md-4 text-center">
                     <img class="rounded-circle" src="{{ $treatment->image }}" alt="{{ $treatment->name }} image" width="140" height="140">
                     <h3 class="mt-3">{{ $treatment->name }}</h3>
-                    <p>{{ $treatment->description }}</p>
+                    <p class="mb-2">{{ $treatment->description }}</p>
+                    <h5 class="font-weight-bold">&euro;{{ $treatment->price }}</h5>
                 </div>
             @empty
             @endforelse
@@ -80,7 +81,7 @@
 </div>
 <div class="container-fluid bg-primary">
     <div class="container">
-        <div class="row justify-content-center align-items-center mb-5" id="bookappointment">
+        <div class="row justify-content-center align-items-center mb-5" id="bookappointment" name="bookappointment">
             <div class="col-7 my-5 py-4">
                 <h4 class="text-white m-0">Maak nu uw reservering door op de knop te drukken.</h4>
             </div>
@@ -92,7 +93,7 @@
 </div>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col" id="contact">
+        <div class="col" id="contact" name="contact">
             <form action="{{ route('submitcontactform') }}" method="POST">
                 @csrf
                 <div class="card border-primary rounded-0">
@@ -141,5 +142,16 @@
         </div>
     </div>
 </div>
+<script>
+    function scrollToAnchor(aid){
+        var aTag = $("div[name='"+ aid +"']");
+        $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+    }
+
+    $("#link").click(function() {
+        scrollToAnchor('id3');
+    });
+
+</script>
 
 @endsection

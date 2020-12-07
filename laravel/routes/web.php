@@ -26,3 +26,9 @@ Route::get('/employees/delete/{id}', [App\Http\Controllers\EmployeeController::c
 Route::get('/employees/add', [App\Http\Controllers\EmployeeController::class, 'loadAddEmployeePage'])->name('addemployee')->middleware('auth');
 
 Route::post('/employees/add', [App\Http\Controllers\EmployeeController::class, 'submitAddEmployee'])->name('submitaddemployee')->middleware('auth');
+
+Route::get('/treatments', [App\Http\Controllers\TreatmentController::class, 'loadTreatmentsPage'])->name('treatments')->middleware('auth');
+Route::get('/treatments/delete/{id}', [App\Http\Controllers\TreatmentController::class, 'deleteTreatment'])->name('deletetreatment')->middleware('auth');
+Route::get('/treatments/add', [App\Http\Controllers\TreatmentController::class, 'loadAddTreatmentPage'])->name('addtreatment')->middleware('auth');
+
+Route::post('/treatments/add', [App\Http\Controllers\TreatmentController::class, 'submitAddTreatment'])->name('submitaddtreatment')->middleware('auth');
