@@ -72,7 +72,7 @@
                     <img class="rounded-circle" src="{{ $treatment->image }}" alt="{{ $treatment->name }} image" width="140" height="140">
                     <h3 class="mt-3">{{ $treatment->name }}</h3>
                     <p class="mb-2">{{ $treatment->description }}</p>
-                    <h5 class="font-weight-bold">&euro;{{ $treatment->price }}</h5>
+                    <h5 class="font-weight-bold">&euro;{{ number_format($treatment->price, 2, ',', '.') }}</h5>
                 </div>
             @empty
             @endforelse

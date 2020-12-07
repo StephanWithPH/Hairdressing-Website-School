@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Timetable;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,11 +26,17 @@ class TreatmentController extends Controller
         return view('pages.dashboard.treatment');
     }
 
-    public function submitAddTreatment(Request $request){
+    public function loadEditTreatmentPage($id){
+        $treatment = Treatment::find($id);
+        return view('pages.dashboard.treatment', compact('treatment'));
+    }
+
+    public function submitTreatment(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'price' => ['required'],
+            'description' => ['required', 'string', 'min:20', 'max:300'],
+            'image' => ['image', 'file'],
         ]);
 
         if ($validator->fails()) {
@@ -37,11 +44,70 @@ class TreatmentController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $user = Treatment::create([
+        /*
+         * Create new treatment
+         * */
+        $treatment = Treatment::create([
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'price' => $request->price,
+            'description' => $request->description,
+            'image' => 'data:image/jpeg;base64,' . base64_encode(file_get_contents($request->file('image')->getRealPath()))
         ]);
+        /*
+         * Save teatment to database
+         * */
+        $treatment->save();
+
+
+        /*
+         * Create new array with all of the days in a week
+         * */
+        $days = [
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+            'sunday'
+        ];
+
+        /*
+         * Loop though the days
+         * */
+        for($i = 0; $i < count($days); $i++){
+
+            /*
+             * Create array with the time on each separate line
+             * */
+            $daytimes = explode(PHP_EOL, $request->{$days[$i]});
+            /*
+             * Check if there are no times filled in
+             * */
+            if($request->{$days[$i]} != ""){
+                /*
+                 * Loop through the times
+                 * */
+                for ($j = 0; $j < count($daytimes); $j++){
+                    /*
+                     * Create new timetible
+                     * */
+                    $timetable = new Timetable();
+                    $timetable->treatment()->associate($treatment);
+                    $timetable->day = $days[$i];
+
+                    /*
+                     * Split the time from and the time until
+                     * */
+                    $times = explode('-', $daytimes[$j]);
+                    $timetable->time_from = $times[0];
+                    $timetable->time_until = $times[1];
+                    $timetable->save();
+                }
+            }
+
+
+        }
         return redirect()->back();
 
     }

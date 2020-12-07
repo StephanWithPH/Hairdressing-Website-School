@@ -16,7 +16,7 @@
                             <th scope="col">#</th>
                             <th scope="col">{{ __('Naam') }}</th>
                             <th scope="col">{{ __('Prijs') }}</th>
-                            <th scope="col">{{ __('Actie') }}</th>
+                            <th scope="col" style="width: 150px">{{ __('Actie') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -24,8 +24,11 @@
                         <tr>
                             <th scope="row">{{ $treatment->id }}</th>
                             <td>{{ $treatment->name }}</td>
-                            <td>{{ $treatment->email }}</td>
-                            <td><a href="{{ route('deletetreatment', $treatment->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">delete</span></a></td>
+                            <td>&euro;{{ number_format($treatment->price, 2, ',', '.') }}</td>
+                            <td>
+                                <a href="{{ route('edittreatment', $treatment->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">edit</span></a>
+                                <a href="{{ route('deletetreatment', $treatment->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">delete</span></a>
+                            </td>
                         </tr>
                         @empty
                             <p>{{ __('Er zijn geen behandelingen gevonden.') }}</p>

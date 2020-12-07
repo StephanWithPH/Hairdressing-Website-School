@@ -14,10 +14,10 @@ class CreateRelationshipsTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
         });
-        Schema::table('timetable', function (Blueprint $table) {
-            $table->foreign('treatment_id')->references('id')->on('treatments');
+        Schema::table('timetables', function (Blueprint $table) {
+            $table->foreign('treatment_id')->references('id')->on('treatments')->onDelete('cascade');
         });
     }
 

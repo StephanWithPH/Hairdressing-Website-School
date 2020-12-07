@@ -13,22 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/* User side */
 Route::get('/', [App\Http\Controllers\HomePageController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomePageController::class, 'index']);
 Route::post('/contact/submit', [App\Http\Controllers\ContactFormController::class, 'post'])->name('submitcontactform');
 
+/* Auth routes */
 Auth::routes(['register' => false]);
 
+/* Dashboard */
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
+
+/* Employees */
 Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'loadEmployeesPage'])->name('employees')->middleware('auth');
 Route::get('/employees/delete/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteEmployee'])->name('deleteemployee')->middleware('auth');
 Route::get('/employees/add', [App\Http\Controllers\EmployeeController::class, 'loadAddEmployeePage'])->name('addemployee')->middleware('auth');
 
 Route::post('/employees/add', [App\Http\Controllers\EmployeeController::class, 'submitAddEmployee'])->name('submitaddemployee')->middleware('auth');
 
+
+
+/* Treatments */
 Route::get('/treatments', [App\Http\Controllers\TreatmentController::class, 'loadTreatmentsPage'])->name('treatments')->middleware('auth');
 Route::get('/treatments/delete/{id}', [App\Http\Controllers\TreatmentController::class, 'deleteTreatment'])->name('deletetreatment')->middleware('auth');
+Route::get('/treatments/edit/{id}', [App\Http\Controllers\TreatmentController::class, 'loadEditTreatmentPage'])->name('edittreatment')->middleware('auth');
 Route::get('/treatments/add', [App\Http\Controllers\TreatmentController::class, 'loadAddTreatmentPage'])->name('addtreatment')->middleware('auth');
 
-Route::post('/treatments/add', [App\Http\Controllers\TreatmentController::class, 'submitAddTreatment'])->name('submitaddtreatment')->middleware('auth');
+Route::post('/treatments/submit', [App\Http\Controllers\TreatmentController::class, 'submitTreatment'])->name('submittreatment')->middleware('auth');
