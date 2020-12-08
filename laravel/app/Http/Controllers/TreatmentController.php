@@ -10,6 +10,28 @@ use Illuminate\Support\Facades\Validator;
 
 class TreatmentController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        /*
+         * Create new array with the days in a week
+         * */
+        $days = [
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+            'sunday'
+        ];
+    }
+
+
     public function loadTreatmentsPage(){
         $treatments = Treatment::all();
         return view('pages.dashboard.treatments', compact('treatments'));
@@ -44,47 +66,42 @@ class TreatmentController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        /*
-         * Create new treatment
-         * */
-        $treatment = Treatment::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-            'image' => 'data:image/jpeg;base64,' . base64_encode(file_get_contents($request->file('image')->getRealPath()))
-        ]);
+        if ($request->treatment_id){
+            /*
+             * Find treatment if already exists
+             * */
+            $treatment = Treatment::find($request->treatment_id);
+        }
+        else {
+            /*
+             * Create new treatment
+             * */
+            $treatment = new Treatment();
+        }
+
+        $treatment->name = $request->name;
+        $treatment->price = $request->price;
+        $treatment->description = $request->description;
+        $treatment->image = $request->image ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($request->file('image')->getRealPath())) : $treatment->image;
+        $treatment->timetables()->delete();
         /*
          * Save teatment to database
          * */
         $treatment->save();
 
-
-        /*
-         * Create new array with all of the days in a week
-         * */
-        $days = [
-            'monday',
-            'tuesday',
-            'wednesday',
-            'thursday',
-            'friday',
-            'saturday',
-            'sunday'
-        ];
-
         /*
          * Loop though the days
          * */
-        for($i = 0; $i < count($days); $i++){
+        for($i = 0; $i < count($this->days); $i++){
 
             /*
              * Create array with the time on each separate line
              * */
-            $daytimes = explode(PHP_EOL, $request->{$days[$i]});
+            $daytimes = explode(PHP_EOL, $request->{$this->days[$i]});
             /*
              * Check if there are no times filled in
              * */
-            if($request->{$days[$i]} != ""){
+            if($request->{$this->days[$i]} != ""){
                 /*
                  * Loop through the times
                  * */
@@ -94,7 +111,7 @@ class TreatmentController extends Controller
                      * */
                     $timetable = new Timetable();
                     $timetable->treatment()->associate($treatment);
-                    $timetable->day = $days[$i];
+                    $timetable->day = $this->days[$i];
 
                     /*
                      * Split the time from and the time until

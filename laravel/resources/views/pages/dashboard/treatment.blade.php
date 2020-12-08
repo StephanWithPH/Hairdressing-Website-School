@@ -30,7 +30,6 @@
 
                             <div class="form-group row">
                                 <label for="description">{{ __('Beschrijving') }}</label>
-
                                 <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required autocomplete="description" autofocus>{{ old('description', isset($treatment->description) ? $treatment->description : '') }}</textarea>
 
                                 @error('description')
@@ -54,7 +53,7 @@
                             <div class="form-group row">
                                 <label for="image">{{ __('Afbeelding') }}</label>
 
-                                <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image" required autocomplete="image" value="{{ old('image') }}" >
+                                <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image" @if(!isset($treatment->image)) required @endif autocomplete="image" value="{{ old('image') }}" >
 
                                 @error('image')
                                 <span class="invalid-feedback" role="alert">

@@ -18,7 +18,7 @@ class CreateTreatmentsTable extends Migration
             $table->string('name');
             $table->longText('description');
             $table->float('price');
-            $table->longText('image');
+            $table->longText('image')->nullable();
             $table->timestamps();
         });
     }

@@ -24,8 +24,8 @@ class Treatment extends Model
     /**
      * Get the timetables for the treatment.
      */
-    public function users()
+    public function timetables()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany('App\Models\Timetable');
     }
 }
