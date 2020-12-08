@@ -20,7 +20,7 @@ class TreatmentController extends Controller
         /*
          * Create new array with the days in a week
          * */
-        $days = [
+        $this->days = [
             'monday',
             'tuesday',
             'wednesday',
@@ -40,6 +40,7 @@ class TreatmentController extends Controller
     public function deleteTreatment($id){
         $treatment = Treatment::find($id);
         $treatment->delete();
+        flash(__('Behandeling succesvol verwijderd.'))->success();
         return redirect()->back();
 
     }
@@ -125,7 +126,8 @@ class TreatmentController extends Controller
 
 
         }
-        return redirect()->back();
+        flash($request->treatment_id? __('Behandeling succesvol bewerkt.') : __('Behandeling succesvol toegevoegd.'))->success();
+        return redirect()->route('treatments');
 
     }
 }

@@ -6,7 +6,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Medewerker toevoegen') }}
+                        {{ __('Behandeling toevoegen') }}
                     </div>
                     <div class="card-body p-5">
                         <form method="POST" action="{{ route('submittreatment') }}" enctype="multipart/form-data">
@@ -64,6 +64,18 @@
 
                             <div class="row mb-2 mt-5">
                                 <h4>Rooster</h4>
+
+                            </div>
+                            <div class="row mb-2">
+                                <p>
+                                    In het tekstveld van de dag op elke nieuwe lijn een tijdsblok gescheiden door een middenstreepje.
+                                    <br/>
+                                    Voorbeeld:
+                                    <br/>
+                                    10:00-11:00<br/>
+                                    11:00-12:00<br/>
+                                    12:30-13:30
+                                </p>
                             </div>
 
                             <div class="form-group row">

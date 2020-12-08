@@ -18,6 +18,7 @@ class EmployeeController extends Controller
     public function deleteEmployee($id){
         $employee = User::find($id);
         $employee->delete();
+        flash(__('Medewerker succesvol verwijderd.'))->success();
         return redirect()->back();
 
     }
@@ -42,7 +43,8 @@ class EmployeeController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        return redirect()->back();
+        flash(__('Medewerker succesvol toegevoegd.'))->success();
+        return redirect()->route('employees');
 
     }
 }
