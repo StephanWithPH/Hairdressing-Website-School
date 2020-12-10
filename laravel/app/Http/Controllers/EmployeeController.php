@@ -17,19 +17,32 @@ class EmployeeController extends Controller
 
     public function deleteEmployee($id){
         $employee = User::find($id);
-        $employee->delete();
-        flash(__('Medewerker succesvol verwijderd.'))->success();
+        if($employee->role->identifier == 'employee'){
+            $employee->delete();
+            flash(__('Medewerker succesvol verwijderd.'))->success();
+        }
         return redirect()->back();
-
     }
 
     public function loadAddEmployeePage(){
         return view('pages.dashboard.employee');
     }
-    public function submitAddEmployee(Request $request){
+
+    public function loadEditEmployeePage($id){
+        $employee = User::find($id);
+        if($employee->role->identifier == 'employee'){
+            return view('pages.dashboard.employee', compact('employee'));
+        }
+        else {
+            return redirect()->back();
+        }
+    }
+
+
+    public function submitEmployee(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'],
+            'email' => ['required', 'string', 'email', 'max:255', !$request->employee_id ? 'unique:users,email,' : null],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -38,12 +51,31 @@ class EmployeeController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        flash(__('Medewerker succesvol toegevoegd.'))->success();
+
+        if ($request->employee_id){
+            /*
+             * Find employee if already exists
+             * */
+            $employee = User::find($request->employee_id);
+
+            if($employee->role->identifier != 'employee'){
+                return redirect()->back();
+            }
+
+        }
+        else {
+            /*
+             * Create new treatment
+             * */
+            $employee = new User();
+        }
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->password = Hash::make($request->password);
+
+        $employee->save();
+
+        flash($request->employee_id ? ('Medewerker succesvol bijgewerkt.') : __('Medewerker succesvol toegevoegd.'))->success();
         return redirect()->route('employees');
 
     }

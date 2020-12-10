@@ -9,13 +9,17 @@
                         {{ __('Medewerker toevoegen') }}
                     </div>
                     <div class="card-body p-5">
-                        <form method="POST" action="{{ route('submitaddemployee') }}">
+                        <form method="POST" action="{{ route('submitemployee') }}">
                             @csrf
+
+                            @if(isset($employee))
+                                <input type="hidden" name="employee_id" value="{{ $employee->id }}"/>
+                            @endif
 
                             <div class="form-group row">
                                 <label for="name">{{ __('Naam') }}</label>
 
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', isset($employee->name) ? $employee->name : '') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -27,7 +31,7 @@
                             <div class="form-group row">
                                 <label for="email">{{ __('Email') }}</label>
 
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', isset($employee->email) ? $employee->email : '') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">

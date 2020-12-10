@@ -26,7 +26,10 @@
                             <th scope="row">{{ $employee->id }}</th>
                             <td>{{ $employee->name }}</td>
                             <td>{{ $employee->email }}</td>
-                            <td><a href="{{ route('deleteemployee', $employee->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">delete</span></a></td>
+                            <td>
+                                <a href="{{ route('editemployee', $employee->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">edit</span></a>
+                                <a href="{{ route('deleteemployee', $employee->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">delete</span></a>
+                            </td>
                         </tr>
                         @empty
                             <p>{{ __('Er zijn geen medewerkers gevonden.') }}</p>

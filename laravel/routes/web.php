@@ -28,9 +28,11 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 /* Employees */
 Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'loadEmployeesPage'])->name('employees')->middleware(['auth', 'role:owner']);
 Route::get('/employees/delete/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteEmployee'])->name('deleteemployee')->middleware(['auth', 'role:owner']);
+Route::get('/employees/edit/{id}', [App\Http\Controllers\EmployeeController::class, 'loadEditEmployeePage'])->name('editemployee')->middleware(['auth', 'role:owner']);
+
 Route::get('/employees/add', [App\Http\Controllers\EmployeeController::class, 'loadAddEmployeePage'])->name('addemployee')->middleware(['auth', 'role:owner']);
 
-Route::post('/employees/add', [App\Http\Controllers\EmployeeController::class, 'submitAddEmployee'])->name('submitaddemployee')->middleware(['auth', 'role:owner']);
+Route::post('/employees/submit', [App\Http\Controllers\EmployeeController::class, 'submitEmployee'])->name('submitemployee')->middleware(['auth', 'role:owner']);
 
 
 
