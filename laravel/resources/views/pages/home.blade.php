@@ -86,7 +86,7 @@
                 <h4 class="text-white m-0">Maak nu uw reservering door op de knop te drukken.</h4>
             </div>
             <div class="col-5 my-5 py-4">
-                <a class="btn btn-lg btn-secondary float-right m-0">Reserveren</a>
+                <a class="btn btn-lg btn-secondary float-right m-0" data-toggle="modal" data-target="#makeAppointmentModal">Reserveren</a>
             </div>
         </div>
     </div>
@@ -142,16 +142,70 @@
         </div>
     </div>
 </div>
-<script>
-    function scrollToAnchor(aid){
-        var aTag = $("div[name='"+ aid +"']");
-        $('html,body').animate({scrollTop: aTag.offset().top},'slow');
-    }
+@include('modals.makeappointment')
 
-    $("#link").click(function() {
-        scrollToAnchor('id3');
-    });
+@endsection
 
-</script>
+@section('scripts')
+    {{-- Anchor tag scroll --}}
+    <script>
+        function scrollToAnchor(aid){
+            var aTag = $("div[name='"+ aid +"']");
+            $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+        }
+
+        $("#link").click(function() {
+            scrollToAnchor('id3');
+        });
+    </script>
+
+    {{-- Make appointment modal --}}
+    <script>
+        $(document).ready(function () {
+
+            var navListItems = $('div.setup-panel div a'),
+                allWells = $('.setup-content'),
+                allNextBtn = $('.nextBtn');
+
+            allWells.hide();
+
+            navListItems.click(function (e) {
+                e.preventDefault();
+                var $target = $($(this).attr('href')),
+                    $item = $(this);
+
+                if (!$item.hasClass('disabled')) {
+                    navListItems.removeClass('btn-primary').addClass('btn-outline-primary');
+                    $item.addClass('btn-primary');
+                    allWells.hide();
+                    $target.show();
+                    $target.find('input:eq(0)').focus();
+                }
+            });
+
+            allNextBtn.click(function(){
+                var curStep = $(this).closest(".setup-content"),
+                    curStepBtn = curStep.attr("id"),
+                    nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                    curInputs = curStep.find("input[type='text'],input[type='url']"),
+                    isValid = true;
+
+                $(".form-group").removeClass("has-error");
+                for(var i=0; i<curInputs.length; i++){
+                    if (!curInputs[i].validity.valid){
+                        isValid = false;
+                        $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    }
+                }
+
+                if (isValid){
+                    nextStepWizard.removeClass('disabled').addClass('text-white').trigger('click');
+                }
+
+            });
+
+            $('div.setup-panel div a.btn-primary').trigger('click');
+        });
+    </script>
 
 @endsection
