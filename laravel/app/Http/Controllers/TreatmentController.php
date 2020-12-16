@@ -51,7 +51,8 @@ class TreatmentController extends Controller
 
     public function loadEditTreatmentPage($id){
         $treatment = Treatment::find($id);
-        return view('pages.dashboard.treatment', compact('treatment'));
+        $timetables = $treatment->timetables()->get()->groupBy('day')->toArray();
+        return view('pages.dashboard.treatment', compact(['treatment', 'timetables']));
     }
 
     public function submitTreatment(Request $request){

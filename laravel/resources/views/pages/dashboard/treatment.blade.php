@@ -81,7 +81,19 @@
                             <div class="form-group row">
                                 <label for="monday">{{ __('Maandag') }}</label>
 
-                                <textarea id="monday" class="form-control @error('monday') is-invalid @enderror" name="monday" autocomplete="monday" autofocus>{{ old('monday') }}</textarea>
+                                <textarea id="monday" class="form-control @error('monday') is-invalid @enderror" name="monday" autocomplete="monday" autofocus>@php
+                                        if(old('monday')) {
+                                            echo old('monday');
+                                        }
+                                        else {
+                                            if(isset($timetables['monday'])){
+                                                foreach($timetables['monday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('monday')
                                 <span class="invalid-feedback" role="alert">
@@ -92,7 +104,19 @@
                             <div class="form-group row">
                                 <label for="tuesday">{{ __('Dinsdag') }}</label>
 
-                                <textarea id="tuesday" class="form-control @error('tuesday') is-invalid @enderror" name="tuesday" autocomplete="tuesday" autofocus>{{ old('tuesday') }}</textarea>
+                                <textarea id="tuesday" class="form-control @error('tuesday') is-invalid @enderror" name="tuesday" autocomplete="tuesday" autofocus>@php
+                                        if(old('tuesday')) {
+                                            echo old('tuesday');
+                                        }
+                                        else {
+                                            if(isset($timetables['tuesday'])){
+                                                foreach($timetables['tuesday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('tuesday')
                                 <span class="invalid-feedback" role="alert">
@@ -103,7 +127,19 @@
                             <div class="form-group row">
                                 <label for="wednesday">{{ __('Woensdag') }}</label>
 
-                                <textarea id="wednesday" class="form-control @error('wednesday') is-invalid @enderror" name="wednesday" autocomplete="wednesday" autofocus>{{ old('wednesday') }}</textarea>
+                                <textarea id="wednesday" class="form-control @error('wednesday') is-invalid @enderror" name="wednesday" autocomplete="wednesday" autofocus>@php
+                                        if(old('wednesday')) {
+                                            echo old('wednesday');
+                                        }
+                                        else {
+                                            if(isset($timetables['wednesday'])){
+                                                foreach($timetables['wednesday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('wednesday')
                                 <span class="invalid-feedback" role="alert">
@@ -114,7 +150,19 @@
                             <div class="form-group row">
                                 <label for="thursday">{{ __('Donderdag') }}</label>
 
-                                <textarea id="thursday" class="form-control @error('thursday') is-invalid @enderror" name="thursday" autocomplete="thursday" autofocus>{{ old('thursday') }}</textarea>
+                                <textarea id="thursday" class="form-control @error('thursday') is-invalid @enderror" name="thursday" autocomplete="thursday" autofocus>@php
+                                        if(old('thursday')) {
+                                            echo old('thursday');
+                                        }
+                                        else {
+                                            if(isset($timetables['thursday'])){
+                                                foreach($timetables['thursday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('thursday')
                                 <span class="invalid-feedback" role="alert">
@@ -125,7 +173,19 @@
                             <div class="form-group row">
                                 <label for="friday">{{ __('Vrijdag') }}</label>
 
-                                <textarea id="friday" class="form-control @error('friday') is-invalid @enderror" name="friday" autocomplete="friday" autofocus>{{ old('friday') }}</textarea>
+                                <textarea id="friday" class="form-control @error('friday') is-invalid @enderror" name="friday" autocomplete="friday" autofocus>@php
+                                        if(old('friday')) {
+                                            echo old('friday');
+                                        }
+                                        else {
+                                            if(isset($timetables['friday'])){
+                                                foreach($timetables['friday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('friday')
                                 <span class="invalid-feedback" role="alert">
@@ -136,7 +196,19 @@
                             <div class="form-group row">
                                 <label for="saturday">{{ __('Zaterdag') }}</label>
 
-                                <textarea id="saturday" class="form-control @error('saturday') is-invalid @enderror" name="saturday" autocomplete="saturday" autofocus>{{ old('saturday') }}</textarea>
+                                <textarea id="saturday" class="form-control @error('saturday') is-invalid @enderror" name="saturday" autocomplete="saturday" autofocus>@php
+                                        if(old('saturday')) {
+                                            echo old('saturday');
+                                        }
+                                        else {
+                                            if(isset($timetables['saturday'])){
+                                                foreach($timetables['saturday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('saturday')
                                 <span class="invalid-feedback" role="alert">
@@ -147,7 +219,19 @@
                             <div class="form-group row">
                                 <label for="sunday">{{ __('Zondag') }}</label>
 
-                                <textarea id="sunday" class="form-control @error('sunday') is-invalid @enderror" name="sunday" autocomplete="sunday" autofocus>{{ old('sunday') }}</textarea>
+                                <textarea id="sunday" class="form-control @error('sunday') is-invalid @enderror" name="sunday" autocomplete="sunday" autofocus>@php
+                                        if(old('sunday')) {
+                                            echo old('sunday');
+                                        }
+                                        else {
+                                            if(isset($timetables['sunday'])){
+                                                foreach($timetables['sunday'] as $timetable){
+                                                        $time_from = explode(':', $timetable['time_from']);
+                                                        $time_until = explode(':', $timetable['time_until']);
+                                                    echo $time_from[0] . ':' . $time_from[1] . '-' . $time_until[0] . ':' . $time_until[1] . PHP_EOL;
+                                                }
+                                            }
+                                        }@endphp</textarea>
 
                                 @error('sunday')
                                 <span class="invalid-feedback" role="alert">

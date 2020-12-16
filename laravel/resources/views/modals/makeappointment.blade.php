@@ -36,15 +36,19 @@
                     <div class="row setup-content" id="step-1">
                         <div class="col">
                             <div class="col">
-                                <h3>Overzicht</h3>
-                                <div class="form-group">
-                                    <label class="control-label">First Name</label>
-                                    <input  maxlength="100" type="text" required="required" class="form-control" placeholder="Enter First Name"  />
+                                <h4>Overzicht</h4>
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>Info: </strong>In onze salon gelden op dit moment coronamaatregelen. We verzoeken u om u te houden aan de coronamaatregelen zoals hieronder beschreven.
+                                    <ul class="list-unstyled">
+                                        <li><strong>-</strong> Blijf bij <strong>klachten thuis</strong></li>
+                                        <li><strong>-</strong> Houd 1,5 meter afstand</li>
+                                        <li><strong>-</strong> Kom enkel op de gereserveerde tijd</li>
+                                        <li><strong>-</strong> Desinfecteer uw handen voor binnenkomst</li>
+                                        <li><strong>-</strong> U bent verplicht een mondkapje te dragen in de wachtkamer</li>
+                                    </ul>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Last Name</label>
-                                    <input maxlength="100" type="text" required="required" class="form-control" placeholder="Enter Last Name" />
-                                </div>
+                                In deze wizard leiden we u door het reserverings proces van {{ env('APP_NAME') }}. In de volgende stappen wordt gevraagd
+                                één of meerdere behandelingen te kiezen en een moment te kiezen waarop u graag geknipt wil worden. We vragen u vervolgens om uw gegevens.<br/>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>
                         </div>
@@ -52,14 +56,16 @@
                     <div class="row setup-content" id="step-2">
                         <div class="col">
                             <div class="col">
-                                <h3>Behandeling</h3>
+                                <h4>Behandeling</h4>
+                                Selecteer de door u gewenste behandelingen. Er zijn meerdere keuzes mogelijk.
+                                <br/><br/>
                                 <div class="form-group">
-                                    <label class="control-label">First Name</label>
-                                    <input  maxlength="100" type="text" required="required" class="form-control" placeholder="Enter First Name"  />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Last Name</label>
-                                    <input maxlength="100" type="text" required="required" class="form-control" placeholder="Enter Last Name" />
+                                    <select name="treatments" class="list-group" multiple required="required">
+                                        @forelse(\App\Models\Treatment::all() as $treatment)
+                                            <option value={{ $treatment->id }} data-description="{{ $treatment->description }}" data-price="{{ number_format($treatment->price, 2, ',', '.') }}">{{ $treatment->name }}</option>
+                                        @empty
+                                        @endforelse
+                                    </select>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>
@@ -101,7 +107,7 @@
                         <div class="col">
                             <div class="col">
                                 <h3>Bevestiging</h3>
-                                <button class="btn btn-success pull-right float-right" type="submit">Afspraak maken</button>
+                                <button class="btn btn-secondary pull-right float-right" type="submit">Afspraak maken</button>
                             </div>
                         </div>
                     </div>

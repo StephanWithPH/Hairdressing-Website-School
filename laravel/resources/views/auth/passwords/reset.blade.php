@@ -16,7 +16,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group row">
-                            <label for="email">{{ __('E-Mail Address') }}</label>
+                            <label for="email">{{ __('Email') }}</label>
 
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
 
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password">{{ __('Password') }}</label>
+                            <label for="password">{{ __('Wachtwoord') }}</label>
 
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
@@ -40,14 +40,14 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm">{{ __('Wachtwoord bevestigen') }}</label>
 
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
 
                         <div class="form-group row mb-0">
                             <button type="submit" class="btn btn-primary">
-                                {{ __('Reset Password') }}
+                                {{ __('Wachtwoord resetten') }}
                             </button>
                         </div>
                     </form>
