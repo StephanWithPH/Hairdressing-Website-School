@@ -131,7 +131,6 @@
                                 <textarea class="form-control" name="comment" placeholder="Opmerking" required></textarea>
                             </div>
                         </div>
-
                         <div class="text-center">
                             <input type="submit" value="Versturen" class="btn btn-primary btn-block py-2">
                         </div>
@@ -205,6 +204,45 @@
             });
 
             $('div.setup-panel div a.btn-primary').trigger('click');
+        });
+    </script>
+
+    <script>
+        var daysOfWeek = [
+            "sunday",
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday"
+        ];
+        var disabledDaysOfWeek = [];
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                minDate: new Date(),
+                format : 'DD/MM/YYYY',
+            }).on("dp.change",function() {
+
+                $.get('{{ route('gettimetables') }}',
+                    {
+                        id: $('#treatmentsSelectBox').children("option:selected").val()
+                    },
+                    (data, textStatus) => {
+                        for(var i = 0; i < daysOfWeek.length; i++){
+                            if(!Object.keys(data).includes(daysOfWeek[i])){
+                                disabledDaysOfWeek.push(i);
+                            }
+                        }
+                        console.log(disabledDaysOfWeek);
+                        $('#datetimepicker1').data("DateTimePicker").options({daysOfWeekDisabled: disabledDaysOfWeek});
+                    }
+                );
+
+            }).on("dp.show",function() {
+                console.log('wordt getoond');
+            });
         });
     </script>
 

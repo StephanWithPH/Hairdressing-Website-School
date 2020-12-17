@@ -60,7 +60,7 @@
                                 Selecteer de door u gewenste behandelingen. Er zijn meerdere keuzes mogelijk.
                                 <br/><br/>
                                 <div class="form-group">
-                                    <select name="treatments" class="list-group" multiple required="required">
+                                    <select name="treatments" class="list-group" required="required" id="treatmentsSelectBox">
                                         @forelse(\App\Models\Treatment::all() as $treatment)
                                             <option value={{ $treatment->id }} data-description="{{ $treatment->description }}" data-price="{{ number_format($treatment->price, 2, ',', '.') }}">{{ $treatment->name }}</option>
                                         @empty
@@ -76,12 +76,15 @@
                             <div class="col">
                                 <h3>Datum/Tijd</h3>
                                 <div class="form-group">
-                                    <label class="control-label">Company Name</label>
-                                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Company Address</label>
-                                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address"  />
+                                    <label class="control-label">Appointment Time</label>
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <div class="input-group-prepend input-group-addon">
+                                            <span class="material-icons input-group-text" id="dateTimePickerAppointment">
+                                                calendar_today
+                                            </span>
+                                        </div>
+                                        <input type='text' class="form-control" aria-describedby="dateTimePickerAppointment" name="appointmentmoment"/>
+                                    </div>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>
