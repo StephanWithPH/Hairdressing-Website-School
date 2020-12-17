@@ -23,6 +23,8 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "material-design-icons": "^3.0.1"
+        "@fortawesome/fontawesome-free": "^5.15.1",
+        "material-design-icons": "^3.0.1",
+        "moment": "^2.29.1"
     }
 }

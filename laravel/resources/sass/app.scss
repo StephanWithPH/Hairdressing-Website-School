@@ -11,8 +11,17 @@
 // Material Design Icons
 @import '~material-design-icons/iconfont/material-icons.css';
 
+
 // Agenda css
 @import "agenda";
+
+// Bootstrap datetimepicker
+@import 'bootstrap-datetimepicker';
+
+// Fontawesome
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+
 
 .active {
     font-weight: bold;
