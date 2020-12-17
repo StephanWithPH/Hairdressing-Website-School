@@ -23,7 +23,7 @@ Auth::routes(['register' => false]);
 
 /* Dashboard */
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-
+Route::get('/agenda', [App\Http\Controllers\AgendaController::class, 'loadAgendaPage'])->name('agenda')->middleware('auth');
 
 /* Employees */
 Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'loadEmployeesPage'])->name('employees')->middleware(['auth', 'role:owner']);
