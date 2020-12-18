@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/timetables', [App\Http\Controllers\AppointmentsController::class, 'get'])->name('gettimetables');
+Route::get('/timetables/times', [App\Http\Controllers\AppointmentsController::class, 'getTimes'])->name('gettimetabletimes');

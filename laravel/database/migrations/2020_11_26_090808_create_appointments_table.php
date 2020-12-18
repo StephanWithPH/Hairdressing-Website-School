@@ -20,6 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('lastname');
             $table->string('email');
             $table->string('phone');
+            $table->date('date');
             $table->time('time_from');
             $table->time('time_until');
             $table->timestamps();

@@ -78,13 +78,18 @@
                                 <div class="form-group">
                                     <label class="control-label">Appointment Time</label>
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <div class="input-group-prepend input-group-addon">
+                                        <div class="input-group-prepend input-group-addon" onclick="loadDates();">
                                             <span class="material-icons input-group-text" id="dateTimePickerAppointment">
                                                 calendar_today
                                             </span>
                                         </div>
                                         <input type='text' class="form-control" aria-describedby="dateTimePickerAppointment" name="appointmentmoment"/>
                                     </div>
+                                </div>
+                                <br/><br/>
+                                <div class="form-group">
+                                    <select name="appointmenttime" required="required" id="appointmentTimesSelectBox">
+                                    </select>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>

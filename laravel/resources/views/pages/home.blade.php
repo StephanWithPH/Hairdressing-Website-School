@@ -208,6 +208,7 @@
     </script>
 
     <script>
+
         var daysOfWeek = [
             "sunday",
             "monday",
@@ -217,33 +218,54 @@
             "friday",
             "saturday"
         ];
-        var disabledDaysOfWeek = [];
 
         $(function () {
             $('#datetimepicker1').datetimepicker({
                 minDate: new Date(),
                 format : 'DD/MM/YYYY',
             }).on("dp.change",function() {
-
-                $.get('{{ route('gettimetables') }}',
-                    {
-                        id: $('#treatmentsSelectBox').children("option:selected").val()
-                    },
-                    (data, textStatus) => {
-                        for(var i = 0; i < daysOfWeek.length; i++){
-                            if(!Object.keys(data).includes(daysOfWeek[i])){
-                                disabledDaysOfWeek.push(i);
-                            }
-                        }
-                        console.log(disabledDaysOfWeek);
-                        $('#datetimepicker1').data("DateTimePicker").options({daysOfWeekDisabled: disabledDaysOfWeek});
-                    }
-                );
-
-            }).on("dp.show",function() {
-                console.log('wordt getoond');
+                loadTimes();
             });
         });
+
+        function loadDates(){
+            $.get('{{ route('gettimetables') }}',
+                {
+                    id: $('#treatmentsSelectBox').children("option:selected").val()
+                },
+                (data, textStatus) => {
+                    var disabledDaysOfWeek = [];
+                    for(var i = 0; i < daysOfWeek.length; i++){
+                        if(!Object.keys(data).includes(daysOfWeek[i])){
+                            disabledDaysOfWeek.push(i);
+                        }
+                    }
+                    console.log(disabledDaysOfWeek);
+                    $('#datetimepicker1').data("DateTimePicker").options({daysOfWeekDisabled: (disabledDaysOfWeek == []) ? null : disabledDaysOfWeek});
+
+                }
+            );
+            loadTimes();
+        }
+
+        function loadTimes(){
+            $.get('{{ route('gettimetabletimes') }}',
+                {
+                    id: $('#treatmentsSelectBox').children("option:selected").val(),
+                    date: $('#datetimepicker1').data("DateTimePicker").date().format('YYYY-MM-DD')
+                },
+                (data, textStatus) => {
+                    //
+                    var appointmentTimesSelectBox = $('#appointmentTimesSelectBox');
+                    appointmentTimesSelectBox.empty();
+                    $.each(data, function (key, element) {
+                        appointmentTimesSelectBox.append($('<option value=' + element.id + '>' + element.time_from + '-' + element.time_until + '</option>'));
+                    });
+                    console.log(data)
+                }
+            );
+        }
+
     </script>
 
 @endsection
