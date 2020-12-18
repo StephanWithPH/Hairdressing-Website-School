@@ -28,7 +28,7 @@
                             <td>&euro;{{ number_format($treatment->price, 2, ',', '.') }}</td>
                             <td>
                                 <a href="{{ route('edittreatment', $treatment->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">edit</span></a>
-                                <a href="{{ route('deletetreatment', $treatment->id) }}" class="btn-primary btn btn-sm material-icons"><span class="material-icons">delete</span></a>
+                                <a href="{{ route('deletetreatment', $treatment->id) }}" onclick="return confirm('Weet je zeker dat je deze behandeling wilt verwijderen?')" class="btn-primary btn btn-sm material-icons"><span class="material-icons">delete</span></a>
                             </td>
                         </tr>
                         @empty
