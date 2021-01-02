@@ -28,4 +28,12 @@ class Treatment extends Model
     {
         return $this->hasMany('App\Models\Timetable');
     }
+
+    /**
+     * Get the appointments for the treatment.
+     */
+    public function appointments()
+    {
+        return $this->belongsToMany(Appointment::class);
+    }
 }

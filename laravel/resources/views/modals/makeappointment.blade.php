@@ -19,7 +19,7 @@
                             <p>Behandeling</p>
                         </div>
                         <div class="stepwizard-step">
-                            <a href="#step-3" type="button" class="btn btn-outline-primary btn-circle disabled text-black">3</a>
+                            <a href="#step-3" type="button" class="btn btn-outline-primary btn-circle disabled text-black" onclick="clearInputs()">3</a>
                             <p>Datum/Tijd</p>
                         </div>
                         <div class="stepwizard-step">
@@ -32,7 +32,8 @@
                         </div>
                     </div>
                 </div>
-                <form role="form">
+                <form role="form" action="{{ route('submitappointment') }}" method="post" id="appointmentForm">
+                    @csrf
                     <div class="row setup-content" id="step-1">
                         <div class="col">
                             <div class="col">
@@ -57,7 +58,7 @@
                         <div class="col">
                             <div class="col">
                                 <h4>Behandeling</h4>
-                                Selecteer de door u gewenste behandelingen. Er zijn meerdere keuzes mogelijk.
+                                Selecteer de door u gewenste behandeling.
                                 <br/><br/>
                                 <div class="form-group">
                                     <select name="treatments" class="list-group" required="required" id="treatmentsSelectBox">
@@ -67,7 +68,7 @@
                                         @endforelse
                                     </select>
                                 </div>
-                                <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
+                                <button class="btn btn-primary nextBtn pull-right float-right" type="button" onclick="clearInputs()">Volgende</button>
                             </div>
                         </div>
                     </div>
@@ -83,12 +84,12 @@
                                                 calendar_today
                                             </span>
                                         </div>
-                                        <input type='text' class="form-control" aria-describedby="dateTimePickerAppointment" name="appointmentmoment"/>
+                                        <input type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
                                     </div>
                                 </div>
                                 <br/><br/>
                                 <div class="form-group">
-                                    <select name="appointmenttime" required="required" id="appointmentTimesSelectBox">
+                                    <select class="form-control" name="appointmenttime" required="required" id="appointmentTimesSelectBox">
                                     </select>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
@@ -100,12 +101,20 @@
                             <div class="col">
                                 <h3>Gegevens</h3>
                                 <div class="form-group">
-                                    <label class="control-label">Company Name</label>
-                                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
+                                    <label class="control-label">Naam</label>
+                                    <input maxlength="200" name="firstname" type="text" required="required" class="form-control" placeholder="Voer uw voornaam in" />
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Company Address</label>
-                                    <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address"  />
+                                    <label class="control-label">Achternaam</label>
+                                    <input maxlength="200" name="lastname" type="text" required="required" class="form-control" placeholder="Voer uw achternaam in" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Email</label>
+                                    <input maxlength="200" name="email" type="email" required="required" class="form-control" placeholder="Voer uw email adres in"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Telefoonnummer</label>
+                                    <input maxlength="200" name="phone[main]" type="tel" required="required" class="form-control" placeholder="Voer uw telefoonnummer in" id="phonenumberinput"/>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>

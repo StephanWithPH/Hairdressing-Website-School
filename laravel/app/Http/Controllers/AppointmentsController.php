@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Timetable;
 use App\Models\Treatment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AppointmentsController extends Controller
 {
@@ -23,5 +25,67 @@ class AppointmentsController extends Controller
         $timetabletimes = $treatment->timetables()->where('day', $day)->get()->toArray();
 
         return response()->json($timetabletimes);
+    }
+
+    public function submitAppointment(Request $request){
+        $validator = Validator::make($request->all(), [
+            'appointmentmoment' => ['required', 'max:255'],
+            'appointmenttime' => ['required'],
+            'firstname' => ['required', 'max:40', 'string'],
+            'lastname' => ['required', 'max:40', 'string'],
+            'email' => ['required', 'email', 'max:100'],
+            'phone' => ['required'],
+            'treatments' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            flash(__('Er is iets mis gegaan bij het maken van de afspraak. Probeer het later opnieuw!'))->error();
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $treatment = Treatment::find($request->treatments);
+        $timetable = Timetable::find($request->appointmenttime);
+
+        $appointment = new Appointment();
+        $appointment->firstname = $request->firstname;
+
+
+        // Generate unique hash for appointment and check if there are duplicates
+        $duplicates = true;
+        while($duplicates){
+            $hash = $this->generateHash();
+            if (!$this->checkHashDuplicate($hash)){
+                $duplicates = false;
+                $appointment->hash = $hash;
+            }
+        }
+        $appointment->lastname = $request->lastname;
+        $appointment->email = $request->email;
+        $appointment->phone = $request->phone["full"];
+        $appointment->date = Carbon::createFromFormat('d/m/Y', $request->appointmentmoment);
+        $appointment->time_from = $timetable->time_from;
+        $appointment->time_until = $timetable->time_until;
+        $appointment->save();
+        $appointment->treatments()->attach($treatment);
+
+
+        flash(__('Uw afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar uw email adres en telefoonnummer'))->success();
+        return redirect()->back();
+    }
+
+    public function generateHash(){
+        return sha1(time());
+    }
+
+    public function checkHashDuplicate($hashparam){
+        $duplicatecount = Appointment::where('hash', $hashparam)->count();
+        if ($duplicatecount == 0){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

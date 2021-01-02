@@ -208,7 +208,7 @@
     </script>
 
     <script>
-
+        /* Create new array with all possible days */
         var daysOfWeek = [
             "sunday",
             "monday",
@@ -219,43 +219,65 @@
             "saturday"
         ];
 
+        /* Create new datetimepicker and disable time selection */
         $(function () {
             $('#datetimepicker1').datetimepicker({
                 minDate: new Date(),
                 format : 'DD/MM/YYYY',
             }).on("dp.change",function() {
+                /* When date is changed load all possible times again */
                 loadTimes();
             });
+
+            $.telinput = $("#phonenumberinput").intlTelInput({
+                initialCountry: "nl",
+                separateDialCode: true,
+                hiddenInput: "full",
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
         });
 
+        /* Load all of the possible dates when the date selection input is clicked */
         function loadDates(){
+            /* Execute get request to api endpoint to see all possible dates */
             $.get('{{ route('gettimetables') }}',
                 {
                     id: $('#treatmentsSelectBox').children("option:selected").val()
                 },
                 (data, textStatus) => {
+                    console.log(daysOfWeek)
+                /* Create new empty array for disabled days */
                     var disabledDaysOfWeek = [];
+                    disabledDaysOfWeek = [];
+                    /* Loop through all of the days in a week */
                     for(var i = 0; i < daysOfWeek.length; i++){
+                        /* If the day is not found push it to the disabledDaysOfWeek array */
                         if(!Object.keys(data).includes(daysOfWeek[i])){
+                            /* Add item to array */
                             disabledDaysOfWeek.push(i);
                         }
                     }
+                    /* Console log the result */
                     console.log(disabledDaysOfWeek);
-                    $('#datetimepicker1').data("DateTimePicker").options({daysOfWeekDisabled: (disabledDaysOfWeek == []) ? null : disabledDaysOfWeek});
+                    /* Add the disabledDaysOfWeek array to the datetimepicker options */
+                    $('#datetimepicker1').data("DateTimePicker").daysOfWeekDisabled((disabledDaysOfWeek == []) ? null : disabledDaysOfWeek);
 
                 }
             );
+            /* Directly load all possible times for currently selected day */
             loadTimes();
         }
 
         function loadTimes(){
+            /* Execute get request to api endpoint to see all possible times */
             $.get('{{ route('gettimetabletimes') }}',
                 {
                     id: $('#treatmentsSelectBox').children("option:selected").val(),
                     date: $('#datetimepicker1').data("DateTimePicker").date().format('YYYY-MM-DD')
                 },
                 (data, textStatus) => {
-                    //
+                    /* Add all possible times to selectbox */
                     var appointmentTimesSelectBox = $('#appointmentTimesSelectBox');
                     appointmentTimesSelectBox.empty();
                     $.each(data, function (key, element) {
@@ -266,6 +288,10 @@
             );
         }
 
+        function clearInputs(){
+            $('#appointmentTimesSelectBox').empty();
+            $('#appointmentmomentInput').val('');
+        }
     </script>
 
 @endsection

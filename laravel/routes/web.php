@@ -43,3 +43,6 @@ Route::get('/treatments/edit/{id}', [App\Http\Controllers\TreatmentController::c
 Route::get('/treatments/add', [App\Http\Controllers\TreatmentController::class, 'loadAddTreatmentPage'])->name('addtreatment')->middleware(['auth', 'role:owner']);
 
 Route::post('/treatments/submit', [App\Http\Controllers\TreatmentController::class, 'submitTreatment'])->name('submittreatment')->middleware(['auth', 'role:owner']);
+
+/* Appointments */
+Route::post('/treatments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment')->middleware(['auth']);
