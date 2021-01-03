@@ -45,4 +45,4 @@ Route::get('/treatments/add', [App\Http\Controllers\TreatmentController::class, 
 Route::post('/treatments/submit', [App\Http\Controllers\TreatmentController::class, 'submitTreatment'])->name('submittreatment')->middleware(['auth', 'role:owner']);
 
 /* Appointments */
-Route::post('/appointments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment')->middleware(['auth']);
+Route::post('/treatments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment')->middleware(['auth']);
