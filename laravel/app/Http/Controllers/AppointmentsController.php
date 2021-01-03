@@ -88,4 +88,9 @@ class AppointmentsController extends Controller
             return true;
         }
     }
+
+    public function loadEditAppointmentPage($id){
+        $appointment = Appointment::find($id);
+        return view('pages.dashboard.editAppointment', compact('appointment'));
+    }
 }

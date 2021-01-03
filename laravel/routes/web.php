@@ -45,4 +45,5 @@ Route::get('/treatments/add', [App\Http\Controllers\TreatmentController::class, 
 Route::post('/treatments/submit', [App\Http\Controllers\TreatmentController::class, 'submitTreatment'])->name('submittreatment')->middleware(['auth', 'role:owner']);
 
 /* Appointments */
-Route::post('/treatments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment')->middleware(['auth']);
+Route::post('/appointments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment')->middleware(['auth']);
+Route::get('/agenda/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPage'])->name('editagenda')->middleware(['auth', 'role:owner']);
