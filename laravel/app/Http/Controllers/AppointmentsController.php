@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Timetable;
 use App\Models\Treatment;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,12 +20,18 @@ class AppointmentsController extends Controller
 
     public function getTimes(Request $request){
         $dateArray = explode("-", $request->date);
-        $day = strtolower(Carbon::createFromDate($dateArray[0], $dateArray[1], $dateArray[2])->format('l'));
+        $dateCarbon = Carbon::createFromDate($dateArray[0], $dateArray[1], $dateArray[2]);
+        $day = strtolower($dateCarbon->format('l'));
 
         $treatment = Treatment::find($request->id);
-        $timetabletimes = $treatment->timetables()->where('day', $day)->get()->toArray();
+        $timetabletimes = $treatment->timetables()->where('day', $day)->get();
+        $timetabletimesMap = $timetabletimes->filter(function ($item) use ($dateCarbon){
+            if (Appointment::where('date', $dateCarbon->format('Y-m-d'))->where('time_from', $item->time_from)->where('time_until', $item->time_until)->count() < User::count()){
+                return $item;
+            }
+        });
 
-        return response()->json($timetabletimes);
+        return response()->json($timetabletimesMap->toArray());
     }
 
     public function submitAppointment(Request $request){

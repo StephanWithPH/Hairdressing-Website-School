@@ -77,7 +77,7 @@
                             <div class="col">
                                 <h3>Datum/Tijd</h3>
                                 <div class="form-group">
-                                    <label class="control-label">Appointment Time</label>
+                                    <label class="control-label">Afspraak datum</label>
                                     <div class='input-group date' id='datetimepicker1'>
                                         <div class="input-group-prepend input-group-addon" onclick="loadDates();">
                                             <span class="material-icons input-group-text" id="dateTimePickerAppointment">
@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Telefoonnummer</label>
-                                    <input maxlength="200" name="phone[main]" type="tel" required="required" class="form-control" placeholder="Voer uw telefoonnummer in" id="phonenumberinput"/>
+                                    <input maxlength="200" name="phone[main]" type="tel" required="required" class="form-control w-100" placeholder="Voer uw telefoonnummer in" id="phonenumberinput"/>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>
@@ -186,3 +186,138 @@
         border-radius: 15px;
     }
 </style>
+{{-- Make appointment modal --}}
+<script>
+    $(document).ready(function () {
+
+        var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+        allWells.hide();
+
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
+
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-primary').addClass('btn-outline-primary');
+                $item.addClass('btn-primary');
+                allWells.hide();
+                $target.show();
+                $target.find('input:eq(0)').focus();
+            }
+        });
+
+        allNextBtn.click(function(){
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input[type='text'],input[type='url'],select"),
+                isValid = true;
+
+            $(".form-group").removeClass("has-error");
+            for(var i=0; i<curInputs.length; i++){
+                if (!curInputs[i].validity.valid){
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
+
+            if (isValid){
+                nextStepWizard.removeClass('disabled').addClass('text-white').trigger('click');
+            }
+
+        });
+
+        $('div.setup-panel div a.btn-primary').trigger('click');
+    });
+</script>
+
+<script>
+    /* Create new array with all possible days */
+    var daysOfWeek = [
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday"
+    ];
+
+    /* Create new datetimepicker and disable time selection */
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            minDate: new Date(),
+            format : 'DD/MM/YYYY',
+        }).on("dp.change",function() {
+            /* When date is changed load all possible times again */
+            loadTimes();
+        });
+
+        $.telinput = $("#phonenumberinput").intlTelInput({
+            initialCountry: "nl",
+            separateDialCode: true,
+            hiddenInput: "full",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+    });
+
+    /* Load all of the possible dates when the date selection input is clicked */
+    function loadDates(){
+        /* Execute get request to api endpoint to see all possible dates */
+        $.get('{{ route('gettimetables') }}',
+            {
+                id: $('#treatmentsSelectBox').children("option:selected").val()
+            },
+            (data, textStatus) => {
+                console.log(daysOfWeek)
+                /* Create new empty array for disabled days */
+                var disabledDaysOfWeek = [];
+                disabledDaysOfWeek = [];
+                /* Loop through all of the days in a week */
+                for(var i = 0; i < daysOfWeek.length; i++){
+                    /* If the day is not found push it to the disabledDaysOfWeek array */
+                    if(!Object.keys(data).includes(daysOfWeek[i])){
+                        /* Add item to array */
+                        disabledDaysOfWeek.push(i);
+                    }
+                }
+                /* Console log the result */
+                console.log(disabledDaysOfWeek);
+                /* Add the disabledDaysOfWeek array to the datetimepicker options */
+                $('#datetimepicker1').data("DateTimePicker").daysOfWeekDisabled((disabledDaysOfWeek == []) ? null : disabledDaysOfWeek);
+
+            }
+        );
+        /* Directly load all possible times for currently selected day */
+        loadTimes();
+    }
+
+    function loadTimes(){
+        /* Execute get request to api endpoint to see all possible times */
+        $.get('{{ route('gettimetabletimes') }}',
+            {
+                id: $('#treatmentsSelectBox').children("option:selected").val(),
+                date: $('#datetimepicker1').data("DateTimePicker").date().format('YYYY-MM-DD')
+            },
+            (data, textStatus) => {
+                /* Add all possible times to selectbox */
+                var appointmentTimesSelectBox = $('#appointmentTimesSelectBox');
+                appointmentTimesSelectBox.empty();
+                $.each(data, function (key, element) {
+                    appointmentTimesSelectBox.append($('<option value=' + element.id + '>' + element.time_from + '-' + element.time_until + '</option>'));
+                });
+                console.log(data)
+            }
+        );
+    }
+
+    function clearInputs(){
+        $('#appointmentTimesSelectBox').empty();
+        $('#appointmentmomentInput').val('');
+    }
+</script>
