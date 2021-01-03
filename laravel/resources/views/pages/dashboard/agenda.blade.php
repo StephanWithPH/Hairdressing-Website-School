@@ -120,16 +120,10 @@
                         title: '<?php echo $appointment->firstname . ' ' . $appointment->lastname ?>',
                         start: new Date(<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo (int)$timeFromArray[0]?>, <?php echo (int)$timeFromArray[1]?>),
                         allDay: false,
+                        url: '<?php echo route('editagenda', $appointment->id) ?>',
                         className: 'important'
                     },
                     <?php endforeach; ?>
-                    {
-                        title: 'Click for Google',
-                        start: new Date(y, m, 28),
-                        end: new Date(y, m, 29),
-                        url: 'https://ccp.cloudaccess.net/aff.php?aff=5188',
-                        className: 'success'
-                    }
                 ],
             });
         });
