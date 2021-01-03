@@ -6,7 +6,6 @@ td.fc-day {
 }
 td.fc-today {
     background: #fff !important;
-    position: relative;
 }
 
 .fc-first th {
@@ -646,10 +645,10 @@ table.fc-header {
     width: 30px;
     height: 30px;
 }
-.fc-sun,
+/*.fc-sun,
 .fc-sat {
     color: #b8b8b8;
-}
+}*/
 
 .fc-week .fc-day:hover .fc-day-number {
     background-color: #b8b8b8;
