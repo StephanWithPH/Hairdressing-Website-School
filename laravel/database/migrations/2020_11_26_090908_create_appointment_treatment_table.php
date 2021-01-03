@@ -32,6 +32,6 @@ class CreateAppointmentTreatmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appointments_treatments');
+        Schema::dropIfExists('appointment_treatment');
     }
 }
