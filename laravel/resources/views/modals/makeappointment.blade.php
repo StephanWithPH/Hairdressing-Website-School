@@ -37,9 +37,8 @@
                     <div class="row setup-content" id="step-1">
                         <div class="col">
                             <div class="col">
-                                <h4>Overzicht</h4>
                                 <div class="alert alert-danger" role="alert">
-                                    <strong>Info: </strong>In onze salon gelden op dit moment coronamaatregelen. We verzoeken u om u te houden aan de coronamaatregelen zoals hieronder beschreven.
+                                    <strong>Waarschuwing: </strong>In onze salon gelden op dit moment coronamaatregelen. We verzoeken u om u te houden aan de coronamaatregelen zoals hieronder beschreven.
                                     <ul class="list-unstyled">
                                         <li><strong>-</strong> Blijf bij <strong>klachten thuis</strong></li>
                                         <li><strong>-</strong> Houd 1,5 meter afstand</li>
@@ -48,8 +47,16 @@
                                         <li><strong>-</strong> U bent verplicht een mondkapje te dragen in de wachtkamer</li>
                                     </ul>
                                 </div>
-                                In deze wizard leiden we u door het reserverings proces van {{ env('APP_NAME') }}. In de volgende stappen wordt gevraagd
-                                één of meerdere behandelingen te kiezen en een moment te kiezen waarop u graag geknipt wil worden. We vragen u vervolgens om uw gegevens.<br/>
+                                <h4>Overzicht</h4>
+                                <div class="mt-3 row mb-3">
+                                    <div class="col-md-7 col-12">
+                                        <div>In deze wizard leiden we u door het reserverings proces van {{ env('APP_NAME') }}. In de volgende stap vragen we u een behandeling te kiezen en een moment waarop u graag geknipt wilt worden. We vragen u vervolgens om uw gegevens zodat we u kunnen herinneren aan uw afspraak.</div><br/>
+                                    </div>
+                                    <div class="col-md-5 d-none d-md-block">
+                                        <img class="w-100" src="{{ asset('img/calendar.svg') }}"/>
+                                    </div>
+                                </div>
+
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>
                         </div>

@@ -26,7 +26,7 @@ class AppointmentsController extends Controller
         $treatment = Treatment::find($request->id);
         $timetabletimes = $treatment->timetables()->where('day', $day)->get();
         $timetabletimesMap = $timetabletimes->filter(function ($item) use ($dateCarbon){
-            if (Appointment::where('date', $dateCarbon->format('Y-m-d'))->where('time_from', $item->time_from)->where('time_until', $item->time_until)->count() < User::count()){
+            if (Appointment::where('date', $dateCarbon->format('Y-m-d'))->whereBetween('time_from', [$item->time_from, $item->time_until])->count() < User::count()){
                 return $item;
             }
         });
