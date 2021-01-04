@@ -4,10 +4,8 @@
 <div class="container">
     @include('flash::message')
     <div class="alert alert-danger" role="alert">
-        <strong>In onze salon gelden op dit moment coronamaatregelen die het rivm voorschrijft.</strong>
-        <ul class="list-unstyled">
-            <li><a class="alert-link" href="https://www.rijksoverheid.nl/onderwerpen/coronavirus-covid-19/winkels-en-contactberoepen/kapper-masseur-en-andere-contactberoepen">Lees meer over de corona maatregelen.</a></li>
-        </ul>
+        In onze salon gelden op dit moment coronamaatregelen die het RIVM voorschrijft.
+        <a class="alert-link" href="https://www.rijksoverheid.nl/onderwerpen/coronavirus-covid-19/winkels-en-contactberoepen/kapper-masseur-en-andere-contactberoepen">Lees meer over de corona maatregelen.</a>
     </div>
     <div class="row justify-content-center mb-5" id="aboutus" name="aboutus">
         <div class="col-md-7">
