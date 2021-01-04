@@ -10,7 +10,7 @@
                     {{ __('Afspraak bewerken') }}
                 </div>
                 <div class="card-body p-5">
-                    <form method="POST" action="{{ route('submitemployee') }}">
+                    <form method="POST" action="{{ route('submitappointmentadmin') }}">
                         @csrf
 
                         @if(isset($appointment))
@@ -66,6 +66,16 @@
                         </div>
 
                         <div class="form-group row">
+                            <label></label>
+                            <select multiple name="treatments[]" class="list-group" required="required" id="treatmentsSelectBox">
+                                @forelse(\App\Models\Treatment::all() as $treatment)
+                                    <option @if($appointment->treatments()->where('id', $treatment->id)->count() > 0) selected @endif value={{ $treatment->id }} data-description="{{ $treatment->description }}" data-price="{{ number_format($treatment->price, 2, ',', '.') }}">{{ $treatment->name }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="control-label">Afspraak datum</label>
                             <div class='input-group date' id='datetimepicker1'>
                                 <div class="input-group-prepend input-group-addon">
@@ -77,11 +87,37 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="control-label">Tijd vanaf</label>
+                            <div class='input-group date' id='timePickerFrom'>
+                                <div class="input-group-prepend input-group-addon">
+                                    <span class="material-icons input-group-text" id="timePickerFrom">
+                                        calendar_today
+                                    </span>
+                                </div>
+                                <input type='text' class="form-control" id="timePickerFromInput" aria-describedby="timePickerFromInput" name="timefrom" onkeydown="return false;"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="control-label">Tijd tot</label>
+                            <div class='input-group date' id='timePickerUntil'>
+                                <div class="input-group-prepend input-group-addon">
+                                    <span class="material-icons input-group-text" id="timePickerUntil">
+                                        calendar_today
+                                    </span>
+                                </div>
+                                <input type='text' class="form-control" id="timePickerUntilInput" aria-describedby="timePickerUntilInput" name="timeuntil" onkeydown="return false;"/>
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary mr-3">
                                 {{ __('Afspraak bijwerken') }}
                             </button>
-
+                            <a href="{{ route('deleteappointment', $appointment->id) }}" onclick="return confirm('Weet je zeker dat je deze afspraak wilt annuleren?')" type="submit" class="btn btn-danger">
+                                {{ __('Afspraak annuleren') }}
+                            </a>
                         </div>
 
                     </form>
@@ -111,6 +147,22 @@
                 defaultDate: new Date(<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>)
 
             });
+            <?php
+            $timeFromArray = explode(':', $appointment->time_from);
+            ?>
+            $('#timePickerFrom').datetimepicker({
+                defaultDate: new Date (<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo $timeFromArray[0] ?>, <?php echo $timeFromArray[1] ?>),
+                format : 'HH:mm'
+            });
+
+            <?php
+            $timeUntilArray = explode(':', $appointment->time_until);
+            ?>
+            $('#timePickerUntil').datetimepicker({
+                defaultDate: new Date (<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo $timeUntilArray[0] ?>, <?php echo $timeUntilArray[1] ?>),
+                format : 'HH:mm'
+            });
+
         });
     </script>
 @endsection

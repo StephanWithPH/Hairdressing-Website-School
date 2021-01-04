@@ -100,4 +100,53 @@ class AppointmentsController extends Controller
         $appointment = Appointment::find($id);
         return view('pages.dashboard.editAppointment', compact('appointment'));
     }
+
+    public function submitAppointmentAdmin(Request $request){
+        $validator = Validator::make($request->all(), [
+            'appointmentmoment' => ['required', 'max:255'],
+            'timefrom' => ['required'],
+            'timeuntil' => ['required'],
+            'firstname' => ['required', 'max:40', 'string'],
+            'lastname' => ['required', 'max:40', 'string'],
+            'email' => ['required', 'email', 'max:100'],
+            'phone' => ['required'],
+            'treatments' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            flash(__('Er is iets mis gegaan bij het bijwerken van de afspraak. Probeer het later opnieuw!'))->error();
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $appointment = Appointment::find($request->appointment_id);
+        $appointment->firstname = $request->firstname;
+        $appointment->lastname = $request->lastname;
+        $appointment->email = $request->email;
+        $appointment->phone = $request->phone['full'];
+        $appointment->time_from = $request->timefrom;
+        $appointment->time_until = $request->timeuntil;
+        $appointment->date = Carbon::createFromFormat('d/m/Y', $request->appointmentmoment);
+        $appointment->treatments()->detach();
+        if (is_array($request->treatments)) {
+            foreach ($request->treatments as $item) {
+                $treatment = Treatment::find($item);
+                $appointment->treatments()->attach($treatment);
+            }
+        }
+        else{
+            $treatment = Treatment::find($request->treatments);
+            $appointment->treatments()->attach($treatment);
+        }
+        $appointment->save();
+        return redirect()->back();
+
+    }
+
+    public function deleteAppointment($id){
+        $appointment = Appointment::find($id);
+        $appointment->delete();
+        flash(__('Afspraak succesvol geannuleerd.'))->success();
+        return redirect()->route('agenda');
+    }
 }
