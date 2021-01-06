@@ -316,7 +316,9 @@
                 var appointmentTimesSelectBox = $('#appointmentTimesSelectBox');
                 appointmentTimesSelectBox.empty();
                 $.each(data, function (key, element) {
-                    appointmentTimesSelectBox.append($('<option value=' + element.id + '>' + element.time_from + '-' + element.time_until + '</option>'));
+                    var time_from = element.time_from.split(":");
+                    var time_until = element.time_until.split(":");
+                    appointmentTimesSelectBox.append($('<option value=' + element.id + '>' + time_from[0] + ':' + time_from[1] + ' - ' + time_until[0] + ':' + time_until[1] + '</option>'));
                 });
                 console.log(data)
             }
