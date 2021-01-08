@@ -7,8 +7,10 @@ use App\Models\Timetable;
 use App\Models\Treatment;
 use App\Models\User;
 use Carbon\Carbon;
+use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use MessageBird;
 
 class AppointmentsController extends Controller
 {
@@ -56,9 +58,6 @@ class AppointmentsController extends Controller
         $timetable = Timetable::find($request->appointmenttime);
 
         $appointment = new Appointment();
-        $appointment->firstname = $request->firstname;
-
-
         // Generate unique hash for appointment and check if there are duplicates
         $duplicates = true;
         while($duplicates){
@@ -68,6 +67,7 @@ class AppointmentsController extends Controller
                 $appointment->hash = $hash;
             }
         }
+        $appointment->firstname = $request->firstname;
         $appointment->lastname = $request->lastname;
         $appointment->email = $request->email;
         $appointment->phone = $request->phone["full"];
@@ -77,8 +77,17 @@ class AppointmentsController extends Controller
         $appointment->save();
         $appointment->treatments()->attach($treatment);
 
-
-        flash(__('Uw afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar uw email adres en telefoonnummer'))->success();
+        if (env('SMS_ENABLED')){
+            $smsMessage = new SmsMessage();
+            $smsMessage->originator = env('SMS_NAME');
+            $smsMessage->recipients = [ $request->phone["full"] ];
+            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is aangemaakt. Voor het bekijken en wijzigen van uw afspraak kunt u op de volgende link klikken.',['firstname' => $request->firstname, 'name' => env('APP_NAME')]);
+            $smsMessage->send();
+            flash(__('Uw afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar uw email adres en telefoonnummer'))->success();
+        }
+        else {
+            flash(__('Uw afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar uw email adres'))->success();
+        }
         return redirect()->back();
     }
 
@@ -139,14 +148,36 @@ class AppointmentsController extends Controller
             $appointment->treatments()->attach($treatment);
         }
         $appointment->save();
+        if (env('SMS_ENABLED')){
+            $smsMessage = new SmsMessage();
+            $smsMessage->originator = env('SMS_NAME');
+            $smsMessage->recipients = [ $request->phone["full"] ];
+            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is gewijzigd. Bekijk of verander uw wijzigingen via de volgende link.',['firstname' => $request->firstname, 'name' => env('APP_NAME')]);
+            $smsMessage->send();
+            flash(__('De afspraak is succesvol bijgewerkt. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
+        }
+        else {
+            flash(__('De afspraak is succesvol bijgewerkt. Een bevestiging is gestuurd naar uw email adres'))->success();
+        }
+
         return redirect()->back();
 
     }
 
     public function deleteAppointment($id){
         $appointment = Appointment::find($id);
+        if (env('SMS_ENABLED')){
+            $smsMessage = new SmsMessage();
+            $smsMessage->originator = env('SMS_NAME');
+            $smsMessage->recipients = [ $appointment->phone ];
+            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is geannuleerd. U kunt deze afspraak niet meer bekijken.',['firstname' => $appointment->firstname, 'name' => env('APP_NAME')]);
+            $smsMessage->send();
+            flash(__('Uw afspraak succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
+        }
+        else {
+            flash(__('Afspraak succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres'))->success();
+        }
         $appointment->delete();
-        flash(__('Afspraak succesvol geannuleerd.'))->success();
         return redirect()->route('agenda');
     }
 }
