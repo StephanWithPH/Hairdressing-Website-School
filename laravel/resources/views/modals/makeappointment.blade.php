@@ -38,14 +38,8 @@
                         <div class="col">
                             <div class="col">
                                 <div class="alert alert-danger" role="alert">
-                                    <strong>Waarschuwing: </strong>In onze salon gelden op dit moment coronamaatregelen. We verzoeken u om u te houden aan de coronamaatregelen zoals hieronder beschreven.
-                                    <ul class="list-unstyled">
-                                        <li><strong>-</strong> Blijf bij <strong>klachten thuis</strong></li>
-                                        <li><strong>-</strong> Houd 1,5 meter afstand</li>
-                                        <li><strong>-</strong> Kom enkel op de gereserveerde tijd</li>
-                                        <li><strong>-</strong> Desinfecteer uw handen voor binnenkomst</li>
-                                        <li><strong>-</strong> U bent verplicht een mondkapje te dragen in de wachtkamer</li>
-                                    </ul>
+                                    In onze salon gelden op dit moment coronamaatregelen die het RIVM voorschrijft.
+                                    <a class="alert-link" href="https://www.rijksoverheid.nl/onderwerpen/coronavirus-covid-19/winkels-en-contactberoepen/kapper-masseur-en-andere-contactberoepen">Lees meer over de corona maatregelen.</a>
                                 </div>
                                 <h4>Overzicht</h4>
                                 <div class="mt-3 row mb-3">
@@ -254,7 +248,7 @@
         "saturday"
     ];
 
-    /* Create new datetimepicker and disable time selection */
+    /* Create new datetimepicker and create a new international telephone input */
     $(function () {
         $('#datetimepicker1').datetimepicker({
             minDate: new Date(),
@@ -288,14 +282,17 @@
                 /* Loop through all of the days in a week */
                 for(var i = 0; i < daysOfWeek.length; i++){
                     /* If the day is not found push it to the disabledDaysOfWeek array */
+                    /*
+                    * The includes function always returns a boolean.
+                    * */
                     if(!Object.keys(data).includes(daysOfWeek[i])){
-                        /* Add item to array */
+                        /* If there is no array key found with the name of the day specified then item to array */
                         disabledDaysOfWeek.push(i);
                     }
                 }
                 /* Console log the result */
                 console.log(disabledDaysOfWeek);
-                /* Add the disabledDaysOfWeek array to the datetimepicker options */
+                /* Add the disabledDaysOfWeek array to the datetimepicker options. If there are no contents, set it to null*/
                 $('#datetimepicker1').data("DateTimePicker").daysOfWeekDisabled((disabledDaysOfWeek == []) ? null : disabledDaysOfWeek);
 
             }
@@ -312,12 +309,16 @@
                 date: $('#datetimepicker1').data("DateTimePicker").date().format('YYYY-MM-DD')
             },
             (data, textStatus) => {
-                /* Add all possible times to selectbox */
+                /* Create variable with the selectbox */
                 var appointmentTimesSelectBox = $('#appointmentTimesSelectBox');
+                /* Empty the selectbox */
                 appointmentTimesSelectBox.empty();
+                /* Loop through the retrieved data from the get request */
                 $.each(data, function (key, element) {
+                    /* Split the times so we can remove the seconds */
                     var time_from = element.time_from.split(":");
                     var time_until = element.time_until.split(":");
+                    /* Append (add to the bottom of the element) a new selectbox option. */
                     appointmentTimesSelectBox.append($('<option value=' + element.id + '>' + time_from[0] + ':' + time_from[1] + ' - ' + time_until[0] + ':' + time_until[1] + '</option>'));
                 });
                 console.log(data)
@@ -326,6 +327,7 @@
     }
 
     function clearInputs(){
+        /* Clear the datetimepicker and time selectbox */
         $('#appointmentTimesSelectBox').empty();
         $('#appointmentmomentInput').val('');
     }
