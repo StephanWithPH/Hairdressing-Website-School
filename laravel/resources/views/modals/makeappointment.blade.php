@@ -79,13 +79,13 @@
                                 <h3>Datum/Tijd</h3>
                                 <div class="form-group">
                                     <label class="control-label">Afspraak datum</label>
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <div class="input-group-prepend input-group-addon" onclick="loadDates();">
+                                    <div class='input-group date' id='datetimepicker1' onclick="loadDates();">
+                                        <div class="input-group-prepend input-group-addon">
                                             <span class="material-icons input-group-text" id="dateTimePickerAppointment">
                                                 calendar_today
                                             </span>
                                         </div>
-                                        <input type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
+                                        <input autofocus="false" type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
                                     </div>
                                 </div>
                                 <br/><br/>
@@ -248,7 +248,7 @@
         "saturday"
     ];
 
-    /* Create new datetimepicker and create a new international telephone input */
+    /* Create new datetimepicker*/
     $(function () {
         $('#datetimepicker1').datetimepicker({
             minDate: new Date(),
@@ -257,13 +257,7 @@
             /* When date is changed load all possible times again */
             loadTimes();
         });
-
-        $.telinput = $("#phonenumberinput").intlTelInput({
-            initialCountry: "nl",
-            separateDialCode: true,
-            hiddenInput: "full",
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-        });
+        $('#datetimepicker1').data("DateTimePicker").daysOfWeekDisabled([0,1,2,3,4,5,6]);
 
     });
 
@@ -294,7 +288,6 @@
                 console.log(disabledDaysOfWeek);
                 /* Add the disabledDaysOfWeek array to the datetimepicker options. If there are no contents, set it to null*/
                 $('#datetimepicker1').data("DateTimePicker").daysOfWeekDisabled((disabledDaysOfWeek == []) ? null : disabledDaysOfWeek);
-
             }
         );
         /* Directly load all possible times for currently selected day */
@@ -330,5 +323,16 @@
         /* Clear the datetimepicker and time selectbox */
         $('#appointmentTimesSelectBox').empty();
         $('#appointmentmomentInput').val('');
+        loadDates();
     }
+
+    /* create new international telephone input */
+    $(function() {
+        $.telinput = $("#phonenumberinput").intlTelInput({
+            initialCountry: "nl",
+            separateDialCode: true,
+            hiddenInput: "full",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+    });
 </script>
