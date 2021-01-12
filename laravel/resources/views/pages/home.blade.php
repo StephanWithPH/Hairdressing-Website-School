@@ -95,6 +95,7 @@
         </div>
     </div>
 </div>
+@if(env('MAIL_ENABLED'))
 <div class="container">
     <div class="row justify-content-center">
         <div class="col" id="contact" name="contact">
@@ -145,6 +146,7 @@
         </div>
     </div>
 </div>
+@endif
 @include('modals.makeappointment')
 
 @endsection

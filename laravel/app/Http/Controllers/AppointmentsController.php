@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AppointmentMailer;
 use App\Models\Appointment;
 use App\Models\Timetable;
 use App\Models\Treatment;
@@ -9,24 +10,35 @@ use App\Models\User;
 use Carbon\Carbon;
 use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use MessageBird;
 
 class AppointmentsController extends Controller
 {
+    /* Api get request function for makeappointment modal to request all of the available weekdays for a treatment. */
     public function get(Request $request){
+        /* Find treatment */
         $treatment = Treatment::find($request->id);
+        /* Get timetables grouped by week day */
         $timetables = $treatment->timetables()->get()->groupBy('day')->toArray();
         return response()->json($timetables);
     }
 
+    /* Api get request function for makeappointment modal to request all of the available times for a treatment with a selected date. */
     public function getTimes(Request $request){
+        /* Explode incoming date into array */
         $dateArray = explode("-", $request->date);
+        /* Create Carbon class from date */
         $dateCarbon = Carbon::createFromDate($dateArray[0], $dateArray[1], $dateArray[2]);
+        /* Create new variable and format carbon date to full day */
         $day = strtolower($dateCarbon->format('l'));
 
+        /* Find treatment with incoming id */
         $treatment = Treatment::find($request->id);
+        /* Get the timetables that belong to the treatment with the incoming day. */
         $timetabletimes = $treatment->timetables()->where('day', $day)->get();
+        /* Filter through the items and only return items when the reservation time is not fully booked by other persons. */
         $timetabletimesMap = $timetabletimes->filter(function ($item) use ($dateCarbon){
             if (Appointment::where('date', $dateCarbon->format('Y-m-d'))->whereBetween('time_from', [$item->time_from, $item->time_until])->count() < User::count()){
                 return $item;
@@ -36,7 +48,15 @@ class AppointmentsController extends Controller
         return response()->json($timetabletimesMap->toArray());
     }
 
+    /* Load page for admins to edit appointment */
+    public function loadEditAppointmentPageAdmin($id){
+        $appointment = Appointment::find($id);
+        return view('pages.dashboard.editAppointment', compact('appointment'));
+    }
+
+    /* Function executed when makeappointment modal is submitted */
     public function submitAppointment(Request $request){
+        /* Validate form fields */
         $validator = Validator::make($request->all(), [
             'appointmentmoment' => ['required', 'max:255'],
             'appointmenttime' => ['required'],
@@ -47,18 +67,21 @@ class AppointmentsController extends Controller
             'treatments' => ['required']
         ]);
 
+        /* If validator fails, return error message */
         if ($validator->fails()) {
             flash(__('Er is iets mis gegaan bij het maken van de afspraak. Probeer het later opnieuw!'))->error();
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-
+        /* Find treatment by incoming id */
         $treatment = Treatment::find($request->treatments);
+        /* Find timetable by incoming timetable id */
         $timetable = Timetable::find($request->appointmenttime);
 
+        /* Create new appointment and fill all fields below*/
         $appointment = new Appointment();
-        // Generate unique hash for appointment and check if there are duplicates
+        /* Generate unique hash for appointment and check if there are duplicates */
         $duplicates = true;
         while($duplicates){
             $hash = $this->generateHash();
@@ -71,22 +94,37 @@ class AppointmentsController extends Controller
         $appointment->lastname = $request->lastname;
         $appointment->email = $request->email;
         $appointment->phone = $request->phone["full"];
+        /* Fill in date, but first create Carbon class to make sure the variable is saved in the correct format */
         $appointment->date = Carbon::createFromFormat('d/m/Y', $request->appointmentmoment);
         $appointment->time_from = $timetable->time_from;
         $appointment->time_until = $timetable->time_until;
         $appointment->save();
+        /* Attach incoming treatment to the appointment. */
         $appointment->treatments()->attach($treatment);
 
+        /* If sms is enabled, send sms */
         if (env('SMS_ENABLED')){
             $smsMessage = new SmsMessage();
             $smsMessage->originator = env('SMS_NAME');
             $smsMessage->recipients = [ $request->phone["full"] ];
             $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is aangemaakt. Voor het bekijken en wijzigen van uw afspraak kunt u op de volgende link klikken.',['firstname' => $request->firstname, 'name' => env('APP_NAME')]);
             $smsMessage->send();
-            flash(__('Uw afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar uw email adres en telefoonnummer'))->success();
+        }
+        /* If mail is enabled, send mail */
+        if(env('MAIL_ENABLED')) Mail::to($appointment->email)->send(new AppointmentMailer($appointment, "created"));
+
+        /* Various checks to check what message to display */
+        if (!env('MAIL_ENABLED') && !env('SMS_ENABLED')) {
+            flash(__('De afspraak is succesvol gemaakt.'))->success();
+        }
+        else if(env('MAIL_ENABLED') && !env('SMS_ENABLED')){
+            flash(__('De afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar het email adres'))->success();
+        }
+        else if (!env('MAIL_ENABLED') && env('SMS_ENABLED')){
+            flash(__('DE afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar het telefoonnummer'))->success();
         }
         else {
-            flash(__('Uw afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar uw email adres'))->success();
+            flash(__('De afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
         }
         return redirect()->back();
     }
@@ -103,11 +141,6 @@ class AppointmentsController extends Controller
         else {
             return true;
         }
-    }
-
-    public function loadEditAppointmentPage($id){
-        $appointment = Appointment::find($id);
-        return view('pages.dashboard.editAppointment', compact('appointment'));
     }
 
     public function submitAppointmentAdmin(Request $request){
@@ -148,16 +181,29 @@ class AppointmentsController extends Controller
             $appointment->treatments()->attach($treatment);
         }
         $appointment->save();
+        /* If sms is enabled, send sms */
         if (env('SMS_ENABLED')){
             $smsMessage = new SmsMessage();
             $smsMessage->originator = env('SMS_NAME');
             $smsMessage->recipients = [ $request->phone["full"] ];
             $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is gewijzigd. Bekijk of verander uw wijzigingen via de volgende link.',['firstname' => $request->firstname, 'name' => env('APP_NAME')]);
             $smsMessage->send();
-            flash(__('De afspraak is succesvol bijgewerkt. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
+        }
+        /* If mail is enabled, send mail */
+        if(env('MAIL_ENABLED')) Mail::to($appointment->email)->send(new AppointmentMailer($appointment, "changed"));
+
+        /* Various checks to check what message to display */
+        if (!env('MAIL_ENABLED') && !env('SMS_ENABLED')) {
+            flash(__('De afspraak is succesvol bijgewerkt.'))->success();
+        }
+        else if(env('MAIL_ENABLED') && !env('SMS_ENABLED')){
+            flash(__('De afspraak is succesvol bijgewerkt. Een bevestiging is gestuurd naar het email adres'))->success();
+        }
+        else if (!env('MAIL_ENABLED') && env('SMS_ENABLED')){
+            flash(__('De afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar het telefoonnummer'))->success();
         }
         else {
-            flash(__('De afspraak is succesvol bijgewerkt. Een bevestiging is gestuurd naar uw email adres'))->success();
+            flash(__('De afspraak is succesvol gemaakt. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
         }
 
         return redirect()->back();
@@ -166,16 +212,29 @@ class AppointmentsController extends Controller
 
     public function deleteAppointment($id){
         $appointment = Appointment::find($id);
+        /* If sms is enabled, send sms */
         if (env('SMS_ENABLED')){
             $smsMessage = new SmsMessage();
             $smsMessage->originator = env('SMS_NAME');
             $smsMessage->recipients = [ $appointment->phone ];
             $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is geannuleerd. U kunt deze afspraak niet meer bekijken.',['firstname' => $appointment->firstname, 'name' => env('APP_NAME')]);
             $smsMessage->send();
-            flash(__('Uw afspraak succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
+        }
+        /* If mail is enabled, send maill */
+        if(env('MAIL_ENABLED')) Mail::to($appointment->email)->send(new AppointmentMailer($appointment, "cancelled"));
+
+        /* Various checks to check what message to display */
+        if (!env('MAIL_ENABLED') && !env('SMS_ENABLED')) {
+            flash(__('De afspraak is succesvol geannuleerd.'))->success();
+        }
+        else if(env('MAIL_ENABLED') && !env('SMS_ENABLED')){
+            flash(__('De afspraak is succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres'))->success();
+        }
+        else if (!env('MAIL_ENABLED') && env('SMS_ENABLED')){
+            flash(__('De afspraak is succesvol geannuleerd. Een bevestiging is gestuurd naar het telefoonnummer'))->success();
         }
         else {
-            flash(__('Afspraak succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres'))->success();
+            flash(__('De afspraak is succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
         }
         $appointment->delete();
         return redirect()->route('agenda');

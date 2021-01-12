@@ -46,6 +46,6 @@ Route::post('/treatments/submit', [App\Http\Controllers\TreatmentController::cla
 
 /* Appointments */
 Route::post('/appointments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment');
-Route::get('/agenda/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPage'])->name('editagenda')->middleware(['auth', 'role:owner']);
-Route::post('/agenda/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointmentAdmin'])->name('submitappointmentadmin')->middleware(['auth', 'role:owner']);
-Route::get('/agenda/cancel/{id}', [App\Http\Controllers\AppointmentsController::class, 'deleteAppointment'])->name('deleteappointment')->middleware(['auth', 'role:owner']);
+Route::get('/agenda/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPageAdmin'])->name('editappointmentadmin')->middleware(['auth']);
+Route::post('/agenda/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointmentAdmin'])->name('submitappointmentadmin')->middleware(['auth']);
+Route::get('/agenda/cancel/{id}', [App\Http\Controllers\AppointmentsController::class, 'deleteAppointment'])->name('deleteappointment')->middleware(['auth']);

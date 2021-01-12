@@ -106,7 +106,7 @@
                         title: '<?php echo $appointment->firstname . ' ' . $appointment->lastname ?>',
                         start: new Date(<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo (int)$timeFromArray[0]?>, <?php echo (int)$timeFromArray[1]?>),
                         allDay: false,
-                        url: '<?php echo route('editagenda', $appointment->id) ?>',
+                        url: '<?php echo route('editappointmentadmin', $appointment->id) ?>',
                         className: 'important'
                     },
                     <?php endforeach; ?>
