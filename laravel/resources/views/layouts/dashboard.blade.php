@@ -49,7 +49,7 @@
                                     <a class="nav-link" href="{{ route('employees') }}">{{ __('Medewerkers') }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Analytics') }}</a>
+                                    <a class="nav-link" href="https://analytics.google.com/analytics/web/">{{ __('Analytics') }}</a>
                                 </li>
                             @endif
                         </ul>

@@ -93,12 +93,12 @@
                     </div>
                     <div class="col-md-6">
                         <h2 class="text-white">Contact</h2>
-                        <iframe class="w-100 d-none d-md-block" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19690.297625486164!2d5.564022946234518!3d51.91047097527989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6559a089c5115%3A0x95bf92fbfda02b69!2sOchten!5e0!3m2!1snl!2snl!4v1606733825219!5m2!1snl!2snl" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        <iframe class="w-100 d-none d-md-block" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1227.5837141228733!2d5.660806598249856!3d52.02204749816209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c7ad2e40799b39%3A0xd0a4fe1d03c616d2!2sBovenbuurtweg%207%2C%206717%20XA%20Ede!5e0!3m2!1sen!2snl!4v1610618681383!5m2!1sen!2snl" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                         <ul class="list-unstyled text-white d-block d-md-none">
-                            <li><a class="text-white">Ochtenlaan 1</a></li>
-                            <li><a class="text-white">4000AA Ochten</a></li>
+                            <li><a class="text-white">Bovenbuurtweg 7</a></li>
+                            <li><a class="text-white">6717 XA Ede</a></li>
                             <li><a href="tel:+31612345678" class="text-white">Tel: 0612345678</a></li>
-                            <li><a href="mailto:contact@knip-it.nl" class="text-white">Email: contact@knip-it.nl</a></li>
+                            <li><a href="mailto:contact@knip-it.nl" class="text-white">Email: kapsalonknipitmail@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>

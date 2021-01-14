@@ -135,6 +135,7 @@
     </div>
 </div>
 
+{{-- In document styling, because it is less styling and we don't want it to be loaded on each page --}}
 <style>
     body{
         margin-top:40px;
@@ -189,12 +190,13 @@
 </style>
 {{-- Make appointment modal --}}
 <script>
+    /* When the page is loaded */
     $(document).ready(function () {
-
+        /* Create variables for the content, nav items and next buttons */
         var navListItems = $('div.setup-panel div a'),
             allWells = $('.setup-content'),
             allNextBtn = $('.nextBtn');
-
+        /* Hide all tab contents */
         allWells.hide();
 
         navListItems.click(function (e) {
@@ -215,14 +217,20 @@
             var curStep = $(this).closest(".setup-content"),
                 curStepBtn = curStep.attr("id"),
                 nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input[type='text'],input[type='url'],select"),
+                curInputs = curStep.find("input[type='text'],input[type='url'],input[type='email'],input[type='tel'],select"),
                 isValid = true;
 
             $(".form-group").removeClass("has-error");
             for(var i=0; i<curInputs.length; i++){
                 if (!curInputs[i].validity.valid){
                     isValid = false;
-                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    $(curInputs[i]).addClass("is-invalid");
+                }
+                else if ($(curInputs[i]).attr('type') == "tel" && !$.isNumeric($(curInputs[i]).val())){
+                    isValid = false;
+                }
+                else {
+                    $(curInputs[i]).removeClass("is-invalid");
                 }
             }
 
