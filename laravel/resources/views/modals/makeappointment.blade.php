@@ -135,6 +135,7 @@
     </div>
 </div>
 
+{{-- In document styling, because it is less styling and we don't want it to be loaded on each page --}}
 <style>
     body{
         margin-top:40px;
@@ -189,12 +190,13 @@
 </style>
 {{-- Make appointment modal --}}
 <script>
+    /* When the page is loaded */
     $(document).ready(function () {
-
+        /* Create variables for the content, nav items and next buttons */
         var navListItems = $('div.setup-panel div a'),
             allWells = $('.setup-content'),
             allNextBtn = $('.nextBtn');
-
+        /* Hide all tab contents */
         allWells.hide();
 
         navListItems.click(function (e) {
