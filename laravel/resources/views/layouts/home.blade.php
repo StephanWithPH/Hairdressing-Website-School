@@ -10,7 +10,7 @@
 
         gtag('config', 'G-GE81V4JQ14');
     </script>
-    
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
