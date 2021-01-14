@@ -1,6 +1,7 @@
 <div>
     <p>Geachte {{ $appointment->firstname }} {{ $appointment->lastname }},</p>
     <p>Uw afspraak bij {{ env('APP_NAME') }} is succesvol aangemaakt. We verzoeken u de onderstaande gegevens te bekijken op fouten en zo nodig aan te passen via de onderstaande link.</p>
+    {{ route('editappointment', $appointment->hash )}}
     <p><strong>Behandelingen:</strong></p>
     <ul style="list-style-type: '- '; padding-left: 0;">
         @forelse($appointment->treatments as $treatment)

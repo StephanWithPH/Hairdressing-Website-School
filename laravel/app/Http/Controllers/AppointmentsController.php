@@ -48,10 +48,22 @@ class AppointmentsController extends Controller
         return response()->json($timetabletimesMap->toArray());
     }
 
+    /* Load appointments (agenda) page for employees and owner */
+    public function loadAppointmentsPage(){
+        $appointments = Appointment::all();
+        return view('pages.dashboard.appointments', compact('appointments'));
+    }
+
     /* Load page for admins to edit appointment */
     public function loadEditAppointmentPageAdmin($id){
         $appointment = Appointment::find($id);
-        return view('pages.dashboard.editAppointment', compact('appointment'));
+        return view('pages.dashboard.appointment', compact('appointment'));
+    }
+
+    /* Load page for customers to edit appointment */
+    public function loadEditAppointmentPage($hash){
+        $appointment = Appointment::where('hash', $hash)->first();
+        return view('pages.appointment', compact('appointment'));
     }
 
     /* Function executed when makeappointment modal is submitted */
@@ -107,7 +119,7 @@ class AppointmentsController extends Controller
             $smsMessage = new SmsMessage();
             $smsMessage->originator = env('SMS_NAME');
             $smsMessage->recipients = [ $request->phone["full"] ];
-            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is aangemaakt. Voor het bekijken en wijzigen van uw afspraak kunt u op de volgende link klikken.',['firstname' => $request->firstname, 'name' => env('APP_NAME')]);
+            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is aangemaakt. Voor het bekijken en wijzigen van uw afspraak kunt u op de volgende link klikken. :link',['firstname' => $request->firstname, 'name' => env('APP_NAME'), 'link' => route('editappointment', $appointment->hash)]);
             $smsMessage->send();
         }
         /* If mail is enabled, send mail */
@@ -143,6 +155,7 @@ class AppointmentsController extends Controller
         }
     }
 
+    /* Function executed when an employee or owner edits an appointment */
     public function submitAppointmentAdmin(Request $request){
         $validator = Validator::make($request->all(), [
             'appointmentmoment' => ['required', 'max:255'],
@@ -186,7 +199,7 @@ class AppointmentsController extends Controller
             $smsMessage = new SmsMessage();
             $smsMessage->originator = env('SMS_NAME');
             $smsMessage->recipients = [ $request->phone["full"] ];
-            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is gewijzigd. Bekijk of verander uw wijzigingen via de volgende link.',['firstname' => $request->firstname, 'name' => env('APP_NAME')]);
+            $smsMessage->body = __('Beste :firstname, uw afspraak bij :name is gewijzigd. Bekijk of verander uw wijzigingen via de volgende link. :link',['firstname' => $request->firstname, 'name' => env('APP_NAME'), 'link' => route('editappointment', $appointment->hash)]);
             $smsMessage->send();
         }
         /* If mail is enabled, send mail */
@@ -210,6 +223,7 @@ class AppointmentsController extends Controller
 
     }
 
+    /* Function executed when an employee or owner deletes an appointment */
     public function deleteAppointment($id){
         $appointment = Appointment::find($id);
         /* If sms is enabled, send sms */
@@ -237,6 +251,6 @@ class AppointmentsController extends Controller
             flash(__('De afspraak is succesvol geannuleerd. Een bevestiging is gestuurd naar het email adres en telefoonnummer'))->success();
         }
         $appointment->delete();
-        return redirect()->route('agenda');
+        return redirect()->route('appointments');
     }
 }
