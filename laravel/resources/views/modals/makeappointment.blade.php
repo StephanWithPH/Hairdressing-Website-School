@@ -215,14 +215,20 @@
             var curStep = $(this).closest(".setup-content"),
                 curStepBtn = curStep.attr("id"),
                 nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input[type='text'],input[type='url'],select"),
+                curInputs = curStep.find("input[type='text'],input[type='url'],input[type='email'],input[type='tel'],select"),
                 isValid = true;
 
             $(".form-group").removeClass("has-error");
             for(var i=0; i<curInputs.length; i++){
                 if (!curInputs[i].validity.valid){
                     isValid = false;
-                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    $(curInputs[i]).addClass("is-invalid");
+                }
+                else if ($(curInputs[i]).attr('type') == "tel" && !$.isNumeric($(curInputs[i]).val())){
+                    isValid = false;
+                }
+                else {
+                    $(curInputs[i]).removeClass("is-invalid");
                 }
             }
 
