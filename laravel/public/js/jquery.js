@@ -1281,7 +1281,7 @@ eval("var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPAC
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Users\Stephan\Documents\GitHub\HairdressingWebsiteSchool\laravel\node_modules\jquery\src\jquery.js */"./node_modules/jquery/src/jquery.js");
+module.exports = __webpack_require__(/*! D:\Documenten\GitHub\HairdressingWebsiteSchool\laravel\node_modules\jquery\src\jquery.js */"./node_modules/jquery/src/jquery.js");
 
 
 /***/ })

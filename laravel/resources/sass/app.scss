@@ -24,6 +24,10 @@
 // International telephone input
 @import '~intl-tel-input/build/css/intlTelInput.css';
 
+// Slick
+@import '~slick-carousel/slick/slick';
+@import '~slick-carousel/slick/slick-theme';
+
 
 
 .active {
@@ -32,3 +36,7 @@
 
 .iti.iti--allow-dropdown { width: 100% }
 
+.slick-slide img {
+    height: 25vh;
+    margin: 5px;
+}
