@@ -84,7 +84,7 @@
                             <div class="form-group">
                                 <select name="treatments" class="list-group" required="required" id="treatmentsSelectBox">
                                     @forelse(\App\Models\Treatment::all() as $treatment)
-                                        <option @if($appointment->treatments()->where('id', $treatment->id)->count() > 0) selected @endif value={{ $treatment->id }} data-description="{{ $treatment->description }}" data-price="{{ number_format($treatment->price, 2, ',', '.') }}">{{ $treatment->name }}</option>
+                                        <option @if($treatment->timetables()->count() == 0) disabled @endif @if($appointment->treatments()->where('id', $treatment->id)->count() > 0) selected @endif value={{ $treatment->id }} data-description="{{ $treatment->description }}" data-price="{{ number_format($treatment->price, 2, ',', '.') }}">{{ $treatment->name }}</option>
                                     @empty
                                     @endforelse
                                 </select>

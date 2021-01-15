@@ -51,4 +51,4 @@ Route::post('/dashboard/appointments/submit/admin', [App\Http\Controllers\Appoin
 Route::get('/dashboard/appointments/cancel/{id}', [App\Http\Controllers\AppointmentsController::class, 'deleteAppointment'])->name('deleteappointment')->middleware(['auth']);
 
 /* Customer appointment editing */
-Route::get('/appointment/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPage'])->name('editappointment')->middleware(['auth']);
+Route::get('/appointment/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPage'])->name('editappointment');
