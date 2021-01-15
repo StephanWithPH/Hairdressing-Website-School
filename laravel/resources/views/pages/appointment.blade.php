@@ -22,11 +22,11 @@
     </div>
     <div class="row justify-content-center mb-5">
         <div class="col">
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('submitappointmentedit') }}">
                 @csrf
 
                 @if(isset($appointment))
-                    <input type="hidden" name="appointment_id" value="{{ $appointment->id }}"/>
+                    <input type="hidden" name="appointment_hash" value="{{ $appointment->hash }}"/>
                     <input type="hidden" name="treatmentanddatechange" value="false"/>
                 @endif
 
@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label for="phonenumberinput">{{ __('Telefoonnummer') }}</label>
 
-                    <input id="phonenumberinput" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone[main]" value="{{ old('phone', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
+                    <input pattern="[0-9 ]{9,10}" id="phonenumberinput" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone[main]" value="{{ old('phone', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
 
                     @error('phone')
                     <span class="invalid-feedback" role="alert">
@@ -78,7 +78,7 @@
                     @enderror
                 </div>
                 @if($appointment->treatments->count() == 1)
-                    <a id="btntreatmentdateselection" onclick="showTreatmentAndDateSelection();" class="btn btn-block btn-primary mb-2">Behandeling en datum/tijd veranderen</a>
+                    <a id="btntreatmentdateselection" onclick="showTreatmentAndDateSelection();" class="btn btn-block btn-outline-primary mb-2">Behandeling en datum/tijd veranderen</a>
                     <div id="treatmentdateselection" class="d-none">
                         <div id="treatments" onmouseup="clearInputs();">
                             <div class="form-group">
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <select class="form-control" name="appointmenttime" required="required" id="appointmentTimesSelectBox">
+                                <select class="form-control" name="appointmenttime" id="appointmentTimesSelectBox">
                                 </select>
                             </div>
                         </div>
@@ -113,10 +113,10 @@
                 @endif
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary mr-3">
+                    <button type="submit" class="btn btn-primary btn-block mr-3">
                         {{ __('Afspraak bijwerken') }}
                     </button>
-                    <a href="{{ route('deleteappointment', $appointment->id) }}" onclick="return confirm('Weet je zeker dat je deze afspraak wilt annuleren?')" type="submit" class="btn btn-danger">
+                    <a href="{{ route('deleteappointment', $appointment->hash) }}" onclick="return confirm('Weet je zeker dat je deze afspraak wilt annuleren?')" type="submit" class="btn btn-danger btn-block">
                         {{ __('Afspraak annuleren') }}
                     </a>
                 </div>
@@ -232,6 +232,7 @@
             $("#treatmentdateselection").removeClass('d-none');
             $("#btntreatmentdateselection").addClass('d-none');
             $("input[name=treatmentanddatechange]").val('true');
+            $("select[name=appointmenttime]").attr("required", "true");
         }
     </script>
 @endsection

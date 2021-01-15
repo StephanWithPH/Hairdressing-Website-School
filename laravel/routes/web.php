@@ -45,10 +45,12 @@ Route::get('/dashboard/treatments/add', [App\Http\Controllers\TreatmentControlle
 Route::post('/dashboard/treatments/submit', [App\Http\Controllers\TreatmentController::class, 'submitTreatment'])->name('submittreatment')->middleware(['auth', 'role:owner']);
 
 /* Appointments */
-Route::post('/dashboard/appointments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment');
+Route::post('/appointments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointment'])->name('submitappointment');
 Route::get('/dashboard/appointments/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPageAdmin'])->name('editappointmentadmin')->middleware(['auth']);
-Route::post('/dashboard/appointments/submit/admin', [App\Http\Controllers\AppointmentsController::class, 'submitAppointmentAdmin'])->name('submitappointmentadmin')->middleware(['auth']);
-Route::get('/dashboard/appointments/cancel/{id}', [App\Http\Controllers\AppointmentsController::class, 'deleteAppointment'])->name('deleteappointment')->middleware(['auth']);
+Route::post('/dashboard/appointments/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointmentAdmin'])->name('submitappointmentadmin')->middleware(['auth']);
+Route::get('/dashboard/appointments/cancel/{id}', [App\Http\Controllers\AppointmentsController::class, 'deleteAppointmentAdmin'])->name('deleteappointmentadmin')->middleware(['auth']);
 
 /* Customer appointment editing */
-Route::get('/appointment/edit/{id}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPage'])->name('editappointment');
+Route::get('/appointments/edit/{hash}', [App\Http\Controllers\AppointmentsController::class, 'loadEditAppointmentPage'])->name('editappointment');
+Route::get('/appointments/cancel/{hash}', [App\Http\Controllers\AppointmentsController::class, 'deleteAppointment'])->name('deleteappointment');
+Route::post('/appointments/edit/submit', [App\Http\Controllers\AppointmentsController::class, 'submitAppointmentEdit'])->name('submitappointmentedit');

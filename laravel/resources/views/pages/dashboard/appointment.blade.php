@@ -56,7 +56,7 @@
                         <div class="form-group row">
                             <label for="phonenumberinput">{{ __('Telefoonnummer') }}</label>
 
-                            <input id="phonenumberinput" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone[main]" value="{{ old('phone', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
+                            <input pattern="[0-9 ]{9,10}" id="phonenumberinput" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone[main]" value="{{ old('phone', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
 
                             @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -115,7 +115,7 @@
                             <button type="submit" class="btn btn-primary mr-3">
                                 {{ __('Afspraak bijwerken') }}
                             </button>
-                            <a href="{{ route('deleteappointment', $appointment->id) }}" onclick="return confirm('Weet je zeker dat je deze afspraak wilt annuleren?')" type="submit" class="btn btn-danger">
+                            <a href="{{ route('deleteappointmentadmin', $appointment->id) }}" onclick="return confirm('Weet je zeker dat je deze afspraak wilt annuleren?')" type="submit" class="btn btn-danger">
                                 {{ __('Afspraak annuleren') }}
                             </a>
                         </div>

@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Telefoonnummer</label>
-                                    <input maxlength="200" name="phone[main]" type="tel" required="required" class="form-control w-100" placeholder="Voer uw telefoonnummer in" id="phonenumberinput"/>
+                                    <input pattern="[0-9 ]{9,10}" maxlength="200" name="phone[main]" type="tel" required="required" class="form-control w-100" placeholder="Voer uw telefoonnummer in" id="phonenumberinput"/>
                                 </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>

@@ -57,7 +57,7 @@ class TreatmentController extends Controller
 
     public function submitTreatment(Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:40'],
             'price' => ['required'],
             'description' => ['required', 'string', 'min:20', 'max:300'],
             'image' => ['image', 'file'],
