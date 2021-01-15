@@ -95,6 +95,22 @@
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="carousel">
+                <div class="item"><img src="{{ asset('img/damesknippen.jpg') }}"></div>
+                <div class="item"><img src="{{ asset('img/haircutmale.jpg') }}"></div>
+                <div class="item"><img src="{{ asset('img/highlights.jpg') }}"></div>
+                <div class="item"><img src="{{ asset('img/kidshaircut.jpg') }}"></div>
+                <div class="item"><img src="{{ asset('img/krullenknippen.jpg') }}"></div>
+                <div class="item"><img src="{{ asset('img/fohnen.jpg') }}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if(env('MAIL_ENABLED'))
 <div class="container">
     <div class="row justify-content-center">
@@ -161,6 +177,20 @@
 
         $("#link").click(function() {
             scrollToAnchor('id3');
+        });
+    </script>
+    <script>
+        $(function () {
+            $('.carousel').slick({
+                arrows: false,
+                slidesToShow: 1,
+                centerMode: true,
+                variableWidth: true,
+                infinite: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+        });
+
         });
     </script>
 @endsection
