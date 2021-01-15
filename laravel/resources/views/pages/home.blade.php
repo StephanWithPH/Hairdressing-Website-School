@@ -100,12 +100,12 @@
     <div class="row">
         <div class="col">
             <div class="carousel">
-                <div class="item"><img src="{{ asset('img/damesknippen.jpg') }}"></div>
-                <div class="item"><img src="{{ asset('img/haircutmale.jpg') }}"></div>
-                <div class="item"><img src="{{ asset('img/highlights.jpg') }}"></div>
-                <div class="item"><img src="{{ asset('img/kidshaircut.jpg') }}"></div>
-                <div class="item"><img src="{{ asset('img/krullenknippen.jpg') }}"></div>
-                <div class="item"><img src="{{ asset('img/fohnen.jpg') }}"></div>
+                <div class="item"><img style="height: 25vh;" src="{{ asset('img/damesknippen.jpg') }}"></div>
+                <div class="item"><img style="height: 25vh;" src="{{ asset('img/haircutmale.jpg') }}"></div>
+                <div class="item"><img style="height: 25vh;" src="{{ asset('img/highlights.jpg') }}"></div>
+                <div class="item"><img style="height: 25vh;" src="{{ asset('img/kidshaircut.jpg') }}"></div>
+                <div class="item"><img style="height: 25vh;" src="{{ asset('img/krullenknippen.jpg') }}"></div>
+                <div class="item"><img style="height: 25vh;" src="{{ asset('img/fohnen.jpg') }}"></div>
             </div>
         </div>
     </div>
@@ -189,7 +189,7 @@
                 infinite: true,
                 autoplay: true,
                 autoplaySpeed: 2000,
-        });
+            });
 
         });
     </script>

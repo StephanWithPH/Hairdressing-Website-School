@@ -134,7 +134,7 @@ class AppointmentsController extends Controller
             $smsMessage->send();
         }
         /* If mail is enabled, send mail */
-        if(env('MAIL_ENABLED')) Mail::to($appointment->email)->send(new AppointmentMailer($appointment, "created"));
+        if(env('MAIL_ENABLED')) Mail::to($appointment->email)->send(new AppointmentMailer($appointment, "changed"));
 
         /* Various checks to check what message to display */
         if (!env('MAIL_ENABLED') && !env('SMS_ENABLED')) {
