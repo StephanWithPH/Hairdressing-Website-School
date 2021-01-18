@@ -69,14 +69,38 @@
                 <div class="form-group">
                     <label for="phonenumberinput">{{ __('Telefoonnummer') }}</label>
 
-                    <input pattern="[0-9 ]{9,10}" id="phonenumberinput" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone[main]" value="{{ old('phone', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
+                    <input pattern="[0-9 ]{9,10}" id="phonenumberinput" type="tel" class="form-control @error('phone[main]') is-invalid @enderror" name="phone[main]" value="{{ old('phone[main]', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
 
-                    @error('phone')
+                    @error('phone[main]')
                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="comments">{{ __('Opmerkingen') }}</label>
+
+                    <textarea id="comments" maxlength="300" class="form-control @error('comments') is-invalid @enderror" name="comments" autocomplete="comments" placeholder="Voer eventuele opmerkingen in, zoals extra behandelingen of dingen waarmee we rekening moeten houden." autofocus>@php
+                            if(old('comments')) {
+                                echo old('comments');
+                            }
+                            else {
+                                if($appointment->comments){
+                                    echo $appointment->comments;
+                                }
+                                else {
+                                    echo "";
+                                }
+                            }@endphp</textarea>
+
+                    @error('comments')
+                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                    @enderror
+                </div>
+
                 @if($appointment->treatments->count() == 1)
                     <a id="btntreatmentdateselection" onclick="showTreatmentAndDateSelection();" class="btn btn-block btn-outline-primary mb-2">Behandeling en datum/tijd veranderen</a>
                     <div id="treatmentdateselection" class="d-none">

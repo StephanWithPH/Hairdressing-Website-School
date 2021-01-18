@@ -52,7 +52,13 @@ class AppointmentsController extends Controller
     /* Load page for customers to edit appointment */
     public function loadEditAppointmentPage($hash){
         $appointment = Appointment::where('hash', $hash)->first();
-        return view('pages.appointment', compact('appointment'));
+        if ($appointment){
+            return view('pages.appointment', compact('appointment'));
+        }
+        else {
+            flash(__('Deze afspraak bestaat niet. Mogelijk is deze al geannuleerd of heeft u geklikt op een ongeldige link. Voor vragen, neem contact op.'))->error();
+            return redirect()->route('home');
+        }
     }
 
     /* Function executed when a customer deletes their own appointment */
@@ -92,6 +98,7 @@ class AppointmentsController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'max:100'],
             'phone' => ['required'],
+            'comments' => ['max:300'],
         ]);
 
         /* If validator fails, return error message */
@@ -106,6 +113,7 @@ class AppointmentsController extends Controller
         $appointment = Appointment::where('hash', $request->appointment_hash)->first();
         $appointment->email = $request->email;
         $appointment->phone = $request->phone["full"];
+        $appointment->comments = !empty($request->comments) ? $request->comments : null;
 
         /* Do a lot of checks if treatments are submitted, if it is only one treatment and check if the time is submitted */
         if ($request->appointmentmoment && $request->treatments && $request->treatmentanddatechange == "true" && $request->appointmenttime && $appointment->treatments()->count() < 2){
@@ -162,6 +170,7 @@ class AppointmentsController extends Controller
             'lastname' => ['required', 'max:40', 'string'],
             'email' => ['required', 'email', 'max:100'],
             'phone' => ['required'],
+            'comments' => ['max:300'],
             'treatments' => ['required']
         ]);
 
@@ -196,6 +205,7 @@ class AppointmentsController extends Controller
         $appointment->date = Carbon::createFromFormat('d/m/Y', $request->appointmentmoment);
         $appointment->time_from = $timetable->time_from;
         $appointment->time_until = $timetable->time_until;
+        $appointment->comments = !empty($request->comments) ? $request->comments : null;
         $appointment->save();
         /* Attach incoming treatment to the appointment. */
         $appointment->treatments()->attach($treatment);
@@ -259,6 +269,7 @@ class AppointmentsController extends Controller
             'appointmentmoment' => ['required', 'max:255'],
             'timefrom' => ['required'],
             'timeuntil' => ['required'],
+            'comments' => ['max:300'],
             'firstname' => ['required', 'max:40', 'string'],
             'lastname' => ['required', 'max:40', 'string'],
             'email' => ['required', 'email', 'max:100'],
@@ -279,6 +290,7 @@ class AppointmentsController extends Controller
         $appointment->phone = $request->phone['full'];
         $appointment->time_from = $request->timefrom;
         $appointment->time_until = $request->timeuntil;
+        $appointment->comments = !empty($request->comments) ? $request->comments : null;
         $appointment->date = Carbon::createFromFormat('d/m/Y', $request->appointmentmoment);
         $appointment->treatments()->detach();
         if (is_array($request->treatments)) {

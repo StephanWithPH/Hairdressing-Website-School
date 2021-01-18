@@ -56,9 +56,31 @@
                         <div class="form-group row">
                             <label for="phonenumberinput">{{ __('Telefoonnummer') }}</label>
 
-                            <input pattern="[0-9 ]{9,10}" id="phonenumberinput" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone[main]" value="{{ old('phone', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
+                            <input pattern="[0-9 ]{9,10}" id="phonenumberinput" type="tel" class="form-control @error('phone[main]') is-invalid @enderror" name="phone[main]" value="{{ old('phone[main]', isset($appointment->phone) ? $appointment->phone : '') }}" required autocomplete="phone" autofocus>
 
-                            @error('phone')
+                            @error('phone[main]')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="comments">{{ __('Opmerkingen') }}</label>
+                            <textarea id="comments" class="form-control @error('comments') is-invalid @enderror" name="comments" autocomplete="comments" autofocus>@php
+                                    if(old('comments')) {
+                                        echo old('comments');
+                                    }
+                                    else {
+                                        if($appointment->comments){
+                                            echo $appointment->comments;
+                                        }
+                                        else {
+                                            echo "";
+                                        }
+                                    }@endphp</textarea>
+
+                            @error('comments')
                             <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

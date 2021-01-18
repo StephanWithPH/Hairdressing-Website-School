@@ -117,6 +117,10 @@
                                     <label class="control-label">Telefoonnummer</label>
                                     <input pattern="[0-9 ]{9,10}" maxlength="200" name="phone[main]" type="tel" required="required" class="form-control w-100" placeholder="Voer uw telefoonnummer in" id="phonenumberinput"/>
                                 </div>
+                                <div class="form-group">
+                                    <label class="control-label">Opmerkingen</label>
+                                    <textarea maxlength="300" name="comments" class="form-control w-100" placeholder="Voer eventuele opmerkingen in, zoals extra behandelingen of dingen waarmee we rekening moeten houden."></textarea>
+                                </div>
                                 <button class="btn btn-primary nextBtn pull-right float-right" type="button" >Volgende</button>
                             </div>
                         </div>
@@ -217,7 +221,7 @@
             var curStep = $(this).closest(".setup-content"),
                 curStepBtn = curStep.attr("id"),
                 nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input[type='text'],input[type='url'],input[type='email'],input[type='tel'],select"),
+                curInputs = curStep.find("input[type='text'],input[type='url'],input[type='email'],input[type='tel'],select,textarea"),
                 isValid = true;
 
             $(".form-group").removeClass("has-error");

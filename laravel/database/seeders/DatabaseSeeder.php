@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\Treatment;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,8 +26,16 @@ class DatabaseSeeder extends Seeder
         $employeeRole->identifier = 'employee';
         $employeeRole->save();
 
-        \App\Models\User::factory(1)->create([
-            'role_id' => 1,
+        $user = new User();
+        $user->name = 'Marijke Pol';
+        $user->email = 'kapsalonknipitmail@gmail.com';
+        $user->email_verified_at = now();
+        $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+        $user->role_id = 1;
+        $user->save();
+
+        \App\Models\User::factory(2)->create([
+            'role_id' => 2,
         ]);
 
         $treatments = [

@@ -23,6 +23,7 @@ class CreateAppointmentsTable extends Migration
             $table->date('date');
             $table->time('time_from');
             $table->time('time_until');
+            $table->text('comments')->nullable();
             $table->timestamps();
         });
     }
