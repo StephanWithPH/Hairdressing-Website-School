@@ -73,7 +73,7 @@
         <div class="row justify-content-center mt-4 mb-5">
             @forelse(\App\Models\Treatment::limit(3)->get() as $treatment)
                 <div class="col-md-4 text-center">
-                    <img class="rounded-circle" src="{{ $treatment->image }}" alt="{{ $treatment->name }} image" width="140" height="140">
+                    <img class="rounded-circle" style="object-fit: cover;" src="{{ $treatment->image }}" alt="{{ $treatment->name }} image" width="140" height="140">
                     <h3 class="mt-3">{{ $treatment->name }}</h3>
                     <p class="mb-2">{{ $treatment->description }}</p>
                     <h5 class="font-weight-bold">&euro;{{ number_format($treatment->price, 2, ',', '.') }}</h5>
