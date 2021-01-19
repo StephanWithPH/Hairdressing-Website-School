@@ -52,9 +52,11 @@ class AppointmentsController extends Controller
     /* Load page for customers to edit appointment */
     public function loadEditAppointmentPage($hash){
         $appointment = Appointment::where('hash', $hash)->first();
+        /* Check if appointments exists */
         if ($appointment){
             return view('pages.appointment', compact('appointment'));
         }
+        /* If not redirect to home page */
         else {
             flash(__('Deze afspraak bestaat niet. Mogelijk is deze al geannuleerd of heeft u geklikt op een ongeldige link. Voor vragen, neem contact op.'))->error();
             return redirect()->route('home');
