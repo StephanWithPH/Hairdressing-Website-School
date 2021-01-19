@@ -12,23 +12,23 @@
                     <div class="stepwizard-row setup-panel">
                         <div class="stepwizard-step">
                             <a href="#step-1" type="button" class="btn btn-primary btn-circle text-black">1</a>
-                            <p>Overzicht</p>
+                            <p class="d-md-block d-none">Overzicht</p>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-2" type="button" class="btn btn-outline-primary btn-circle disabled text-black">2</a>
-                            <p>Behandeling</p>
+                            <p class="d-md-block d-none">Behandeling</p>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-3" type="button" class="btn btn-outline-primary btn-circle disabled text-black" onclick="clearInputs()">3</a>
-                            <p>Datum/Tijd</p>
+                            <p class="d-md-block d-none">Datum/Tijd</p>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-4" type="button" class="btn btn-outline-primary btn-circle disabled text-black">3</a>
-                            <p>Gegevens</p>
+                            <p class="d-md-block d-none">Gegevens</p>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-5" type="button" class="btn btn-outline-primary btn-circle disabled text-black">3</a>
-                            <p>Bevestiging</p>
+                            <p class="d-md-block d-none">Bevestiging</p>
                         </div>
                     </div>
                 </div>
