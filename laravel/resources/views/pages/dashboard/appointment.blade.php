@@ -105,7 +105,7 @@
                                         calendar_today
                                     </span>
                                 </div>
-                                <input type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
+                                <input readonly type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
                             </div>
                         </div>
 
@@ -117,7 +117,7 @@
                                         calendar_today
                                     </span>
                                 </div>
-                                <input type='text' class="form-control" id="timePickerFromInput" aria-describedby="timePickerFromInput" name="timefrom" onkeydown="return false;"/>
+                                <input readonly type='text' class="form-control" id="timePickerFromInput" aria-describedby="timePickerFromInput" name="timefrom" onkeydown="return false;"/>
                             </div>
                         </div>
 
@@ -129,7 +129,7 @@
                                         calendar_today
                                     </span>
                                 </div>
-                                <input type='text' class="form-control" id="timePickerUntilInput" aria-describedby="timePickerUntilInput" name="timeuntil" onkeydown="return false;"/>
+                                <input readonly type='text' class="form-control" id="timePickerUntilInput" aria-describedby="timePickerUntilInput" name="timeuntil" onkeydown="return false;"/>
                             </div>
                         </div>
 
@@ -166,6 +166,7 @@
             ?>
             $('#datetimepicker1').datetimepicker({
                 format : 'DD/MM/YYYY',
+                ignoreReadonly: true,
                 defaultDate: new Date(<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>)
 
             });
@@ -174,6 +175,7 @@
             ?>
             $('#timePickerFrom').datetimepicker({
                 defaultDate: new Date (<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo $timeFromArray[0] ?>, <?php echo $timeFromArray[1] ?>),
+                ignoreReadonly: true,
                 format : 'HH:mm'
             });
 
@@ -182,6 +184,7 @@
             ?>
             $('#timePickerUntil').datetimepicker({
                 defaultDate: new Date (<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo $timeUntilArray[0] ?>, <?php echo $timeUntilArray[1] ?>),
+                ignoreReadonly: true,
                 format : 'HH:mm'
             });
 

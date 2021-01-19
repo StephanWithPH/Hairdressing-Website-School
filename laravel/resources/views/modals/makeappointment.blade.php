@@ -85,7 +85,7 @@
                                                 calendar_today
                                             </span>
                                         </div>
-                                        <input autofocus="false" type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
+                                        <input readonly autofocus="false" type='text' class="form-control" id="appointmentmomentInput" aria-describedby="dateTimePickerAppointment" name="appointmentmoment" onkeydown="return false;"/>
                                     </div>
                                 </div>
                                 <br/><br/>
@@ -265,6 +265,7 @@
         $('#datetimepicker1').datetimepicker({
             minDate: new Date(),
             format : 'DD/MM/YYYY',
+            ignoreReadonly: true,
         }).on("dp.change",function() {
             /* When date is changed load all possible times again */
             loadTimes();
