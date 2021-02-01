@@ -23,6 +23,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        /* Return dashboard home view */
         return view('pages.dashboard.home');
     }
 }

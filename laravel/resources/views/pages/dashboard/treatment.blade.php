@@ -80,7 +80,10 @@
 
                             <div class="form-group row">
                                 <label for="monday">{{ __('Maandag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="monday" class="form-control @error('monday') is-invalid @enderror" name="monday" autocomplete="monday" autofocus>@php
                                         if(old('monday')) {
                                             echo old('monday');
@@ -103,7 +106,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="tuesday">{{ __('Dinsdag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="tuesday" class="form-control @error('tuesday') is-invalid @enderror" name="tuesday" autocomplete="tuesday" autofocus>@php
                                         if(old('tuesday')) {
                                             echo old('tuesday');
@@ -126,7 +132,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="wednesday">{{ __('Woensdag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="wednesday" class="form-control @error('wednesday') is-invalid @enderror" name="wednesday" autocomplete="wednesday" autofocus>@php
                                         if(old('wednesday')) {
                                             echo old('wednesday');
@@ -149,7 +158,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="thursday">{{ __('Donderdag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="thursday" class="form-control @error('thursday') is-invalid @enderror" name="thursday" autocomplete="thursday" autofocus>@php
                                         if(old('thursday')) {
                                             echo old('thursday');
@@ -172,7 +184,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="friday">{{ __('Vrijdag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="friday" class="form-control @error('friday') is-invalid @enderror" name="friday" autocomplete="friday" autofocus>@php
                                         if(old('friday')) {
                                             echo old('friday');
@@ -195,7 +210,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="saturday">{{ __('Zaterdag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="saturday" class="form-control @error('saturday') is-invalid @enderror" name="saturday" autocomplete="saturday" autofocus>@php
                                         if(old('saturday')) {
                                             echo old('saturday');
@@ -218,7 +236,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="sunday">{{ __('Zondag') }}</label>
-
+                                {{--
+                                Check if there is an old form value returned when there was an error and if not then check if there is a timetable value for monday.
+                                If so, then loop through the timetable times and add them to the textarea
+                                 --}}
                                 <textarea id="sunday" class="form-control @error('sunday') is-invalid @enderror" name="sunday" autocomplete="sunday" autofocus>@php
                                         if(old('sunday')) {
                                             echo old('sunday');

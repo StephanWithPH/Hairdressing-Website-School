@@ -164,6 +164,7 @@
             <?php
             $dateArray = explode('-', $appointment->date);
             ?>
+            /* Create new datetimepicker for appointment date */
             $('#datetimepicker1').datetimepicker({
                 format : 'DD/MM/YYYY',
                 ignoreReadonly: true,
@@ -173,6 +174,7 @@
             <?php
             $timeFromArray = explode(':', $appointment->time_from);
             ?>
+            /* Create new datetimepicker for appointment time_from */
             $('#timePickerFrom').datetimepicker({
                 defaultDate: new Date (<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo $timeFromArray[0] ?>, <?php echo $timeFromArray[1] ?>),
                 ignoreReadonly: true,
@@ -182,6 +184,7 @@
             <?php
             $timeUntilArray = explode(':', $appointment->time_until);
             ?>
+            /* Create new datetimepicker for appointment time_until */
             $('#timePickerUntil').datetimepicker({
                 defaultDate: new Date (<?php echo (int)$dateArray[0]?>, <?php echo (int)$dateArray[1]?>-1, <?php echo (int)$dateArray[2]?>, <?php echo $timeUntilArray[0] ?>, <?php echo $timeUntilArray[1] ?>),
                 ignoreReadonly: true,

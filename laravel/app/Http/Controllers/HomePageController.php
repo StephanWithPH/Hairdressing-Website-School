@@ -13,6 +13,7 @@ class HomePageController extends Controller
      */
     public function index()
     {
+        /* Return home page as view */
         return view('pages.home');
     }
 }

@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    /* Find all employees with role employee and return them together with view */
     public function loadEmployeesPage() {
         $employees = Role::where('identifier', 'employee')->first()->users->all();
         return view('pages.dashboard.employees', compact('employees'));
     }
 
+    /* Delete employee with GET parameter id and return to previous page with message */
     public function deleteEmployee($id){
         $employee = User::find($id);
         if($employee->role->identifier == 'employee'){
@@ -24,10 +26,12 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
+    /* Return employee view to add employee */
     public function loadAddEmployeePage(){
         return view('pages.dashboard.employee');
     }
 
+    /* Return employee page to edit employee */
     public function loadEditEmployeePage($id){
         $employee = User::find($id);
         if($employee->role->identifier == 'employee'){
@@ -39,6 +43,7 @@ class EmployeeController extends Controller
     }
 
 
+    /* Handle POST form submit when employee is submitted. Use the same function for editing and adding employees */
     public function submitEmployee(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
@@ -65,7 +70,7 @@ class EmployeeController extends Controller
         }
         else {
             /*
-             * Create new treatment
+             * Create new employee
              * */
             $employee = new User();
         }
@@ -75,7 +80,9 @@ class EmployeeController extends Controller
 
         $employee->save();
 
-        flash($request->employee_id ? ('Medewerker succesvol bijgewerkt.') : __('Medewerker succesvol toegevoegd.'))->success();
+        /* Return flash with employe edited when employee id exists as form input and else return flash with employee added */
+        flash($request->employee_id ? __('Medewerker succesvol bijgewerkt.') : __('Medewerker succesvol toegevoegd.'))->success();
+        /* Return to employees page */
         return redirect()->route('employees');
 
     }

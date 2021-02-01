@@ -32,11 +32,13 @@ class TreatmentController extends Controller
     }
 
 
+    /* Select all treatments and return them together with the view. */
     public function loadTreatmentsPage(){
         $treatments = Treatment::all();
         return view('pages.dashboard.treatments', compact('treatments'));
     }
 
+    /* Find treatment by GET id and delete it. Show message the treatment is deleted and redirect back */
     public function deleteTreatment($id){
         $treatment = Treatment::find($id);
         $treatment->delete();
@@ -45,16 +47,19 @@ class TreatmentController extends Controller
 
     }
 
+    /* Return treatment view */
     public function loadAddTreatmentPage(){
         return view('pages.dashboard.treatment');
     }
 
+    /* Return treatment view with compact variable with existing treatment and timetables to edit it. */
     public function loadEditTreatmentPage($id){
         $treatment = Treatment::find($id);
         $timetables = $treatment->timetables()->get()->groupBy('day')->toArray();
         return view('pages.dashboard.treatment', compact(['treatment', 'timetables']));
     }
 
+    /* Function to handle form POST. Used to edit and add a treatment. */
     public function submitTreatment(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:40'],
@@ -81,10 +86,12 @@ class TreatmentController extends Controller
             $treatment = new Treatment();
         }
 
+        /* Fill in values */
         $treatment->name = $request->name;
         $treatment->price = $request->price;
         $treatment->description = $request->description;
         $treatment->image = $request->image ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($request->file('image')->getRealPath())) : $treatment->image;
+        /* Delete all attached timetables */
         $treatment->timetables()->delete();
         /*
          * Save teatment to database
@@ -127,6 +134,7 @@ class TreatmentController extends Controller
 
 
         }
+        /* If edited return edit flash if added return add flash. Then redirect back to the treatments page */
         flash($request->treatment_id? __('Behandeling succesvol bewerkt.') : __('Behandeling succesvol toegevoegd.'))->success();
         return redirect()->route('treatments');
 

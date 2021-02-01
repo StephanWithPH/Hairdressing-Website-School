@@ -22,6 +22,7 @@ class SmsMessage extends Controller
      */
     public $body;
 
+    /* Function executed when sending messagebird sms */
     public function send(){
         $messagebird = new MessageBird\Client(env('MESSAGEBIRD_KEY'));
         $message = new MessageBird\Objects\Message;

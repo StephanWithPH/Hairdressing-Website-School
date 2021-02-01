@@ -96,6 +96,7 @@
                         $(this).remove();
                     }
                 },
+                /* Loop through all of the events and add them to arrays with dates and times then add events to Javascript array */
                 events: [
                     <?php foreach ($appointments as $appointment):
                     $dateArray = explode('-', $appointment->date);

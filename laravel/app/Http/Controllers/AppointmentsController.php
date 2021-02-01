@@ -285,7 +285,9 @@ class AppointmentsController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+        /* Find appointment */
         $appointment = Appointment::find($request->appointment_id);
+        /* Fill in fields with fields from the request */
         $appointment->firstname = $request->firstname;
         $appointment->lastname = $request->lastname;
         $appointment->email = $request->email;
@@ -294,7 +296,12 @@ class AppointmentsController extends Controller
         $appointment->time_until = $request->timeuntil;
         $appointment->comments = !empty($request->comments) ? $request->comments : null;
         $appointment->date = Carbon::createFromFormat('d/m/Y', $request->appointmentmoment);
+        /* Remove all treatments from appointment */
         $appointment->treatments()->detach();
+        /*
+        If treatments are array then loop through it and attach treatments to appointment.
+        If treatments are not array then directly attach treatment to appointment
+         */
         if (is_array($request->treatments)) {
             foreach ($request->treatments as $item) {
                 $treatment = Treatment::find($item);
